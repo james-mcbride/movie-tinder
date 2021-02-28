@@ -10,10 +10,6 @@ const MovieCard = (props) => {
             <div className="content">
                 <a className="header">{props.movie.title}</a>
             </div>
-
-
-
-
         </div>
     )
 }

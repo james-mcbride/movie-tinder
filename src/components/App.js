@@ -43,25 +43,43 @@ class App extends React.Component {
     }
 
     onLogin = (newUserBoolean, userInfo, username)=>{
+        if (newUserBoolean===false) {
+            let deletedMovies=userInfo[username].deletedMovies;
+            let filteredMovies=this.state.allMovies.filter(movie => {
+                let counter=0;
+                for (let i=0; i<deletedMovies.length; i++){
+                    if (deletedMovies[i].title===movie.title){
+                        counter++
+                    }
+                }
+                return counter===0;
+            })
+            let savedMovies = userInfo[username].savedMovies;
 
-        this.setState({
-            newUserBoolean: newUserBoolean,
-            allMovies: userInfo[username].allMovies,
-            savedMovies: userInfo[username].savedMovies,
-            watchedMovies: userInfo[username].watchedMovies,
-            userInfo: userInfo,
-            login: true,
-            username: username,
-            userID: userInfo.id
-        })
+            this.setState({
+                newUserBoolean: newUserBoolean,
+                userInfo: userInfo,
+                login: true,
+                username: username,
+                userID: userInfo.id,
+                allMovies: filteredMovies,
+                savedMovies: savedMovies
+            })
+        } else{
+            this.setState({
+                newUserBoolean: true,
+                login: true
+            })
+        }
 
 
     }
 
-    onRegister = (allMovies)=>{
+    onRegister = (allMovies, username)=>{
         this.setState({
             allMovies: allMovies,
-            newUserBoolean: false
+            newUserBoolean: false,
+            username: username
         })
 
 
@@ -92,16 +110,16 @@ class App extends React.Component {
             } else if (this.state.viewingChoice === 'group') {
                 return <GroupSetup moviePreferences={this.onPreferencesSubmit}/>
             } else if (this.state.viewingChoice==='savedMovies'){
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.savedMovies}/>
             }
             return <Intro onViewingOptionSelect={this.onViewingOptionSelect}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies}/>
             }
         }
     }

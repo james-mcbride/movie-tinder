@@ -39,34 +39,28 @@ class Register extends React.Component{
             })
             .then(()=>{
                 if (this.state.validUserName) {
-                    console.log('loading movies')
-                    fetch("https://private-atlantic-hosta.glitch.me/allMovies", getOptions)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data)
-                            this.props.onRegister(data)
-                            let newUserObj = {};
+                    let newUserObj = {};
 
-                            newUserObj[this.state.username] = {
-                                password: this.state.password,
-                                allMovies: data,
-                                savedMovies: [],
-                                watchedMovies: []
-                            }
+                    newUserObj[this.state.username] = {
+                        password: this.state.password,
+                        deletedMovies: [],
+                        savedMovies: [],
+                        watchedMovies: []
+                    }
+                    this.props.onRegister(newUserObj, this.state.username)
 
 
-                            const postOpt = {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(newUserObj)
-                            }
-                            fetch("https://private-atlantic-hosta.glitch.me/users", postOpt)
-                                .then(response => console.log(newUserObj))
-                                .catch(error => console.log(error))
+                    const postOpt = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(newUserObj)
+                    }
+                    fetch("https://private-atlantic-hosta.glitch.me/users", postOpt)
+                        .then(response => console.log(newUserObj))
+                        .catch(error => console.log(error))
 
-                        })
                 }
             })
 

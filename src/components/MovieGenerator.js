@@ -8,7 +8,8 @@ class MovieGenerator extends React.Component {
         userInfo: this.props.userInfo,
         movieNumber: 0,
         movieType: this.props.movieType,
-        updatedMovies: null
+        updatedMovies: null,
+        allMovies: this.props.allMovies
     }
 
     onNextMovie = () => {
@@ -18,7 +19,7 @@ class MovieGenerator extends React.Component {
 
     onWatchLater = () => {
         let updatedUserInfo = this.state.userInfo;
-        let currentMovie=this.state.userInfo[this.state.username][this.state.movieType][this.state.movieNumber]
+        let currentMovie=this.state.allMovies[this.state.movieNumber]
         let currentSavedMovies=this.state.userInfo[this.state.username].savedMovies;
         currentSavedMovies.push(currentMovie)
         updatedUserInfo[this.state.username].savedMovies=currentSavedMovies;
@@ -39,20 +40,25 @@ class MovieGenerator extends React.Component {
 
     onDeleteMovie = () =>{
         let updatedUserInfo={}
-        let currentMovie=this.state.userInfo[this.state.username][this.state.movieType][this.state.movieNumber]
-        if (this.state.updatedMovies===null) {
-            updatedUserInfo = JSON.parse(JSON.stringify(this.state.userInfo));
-            this.setState({updatedMovies: updatedUserInfo})
-        } else{
-            updatedUserInfo=this.state.updatedMovies
+        if (this.state.movieType==='allMovies') {
+             updatedUserInfo = this.state.userInfo;
+            let currentMovie = updatedUserInfo[this.state.username][this.state.movieType][this.state.movieNumber]
+            let currentDeletedList = this.state.userInfo[this.state.username].deletedMovies;
+            currentDeletedList.push(currentMovie)
+            updatedUserInfo[this.state.username].deletedMovies = currentDeletedList;
+        } else if (this.state.movieType==='savedMovies'){
+             updatedUserInfo = JSON.parse(JSON.stringify(this.state.userInfo));
+            let currentMovie = updatedUserInfo[this.state.username][this.state.movieType][this.state.movieNumber]
+            let currentSavedList = updatedUserInfo[this.state.username].savedMovies;
+
+            for (let i=0; i<currentSavedList.length; i++){
+                if( currentSavedList[i].title===currentMovie.title){
+                    currentSavedList.splice(i,1);
+                }
+            }
+            updatedUserInfo[this.state.username].savedMovies=currentSavedList;
         }
-        let currentAllMovies = updatedUserInfo[this.state.username][this.state.movieType];
-        console.log('current movie' + currentMovie.title
-        )
-        console.log(currentAllMovies)
-        let updatedAllMovies = currentAllMovies.filter(movie => movie.title!==currentMovie.title)
-        console.log(updatedAllMovies)
-        updatedUserInfo[this.state.username][this.state.movieType] = updatedAllMovies;
+
 
 
         const putOpt = {
@@ -73,11 +79,10 @@ class MovieGenerator extends React.Component {
     }
 
 
-
     render(){
 
         return <div className='movieContainer'>
-            <MovieCard movie={this.state.userInfo[this.state.username][this.state.movieType][this.state.movieNumber]}  />
+            <MovieCard movie={this.state.allMovies[this.state.movieNumber]}  />
             <div className='nextMovieButton' onClick={this.onNextMovie}>
                 <i className="caret square right outline icon" />
             </div>
