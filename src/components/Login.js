@@ -3,7 +3,8 @@ import React from 'react';
 class Login extends React.Component {
     state ={
         username: '',
-        password: ''
+        password: '',
+        userInfo: ''
     }
     onUsernameChange = (event) =>{
         this.setState({username: event.target.value})
@@ -14,7 +15,36 @@ class Login extends React.Component {
 
     onFormSubmit = (event) => {
         event.preventDefault();
-        this.props.onLogin(false,this.state.username, this.state.password)
+
+        const getOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // body: JSON.stringify(reviewObj),
+        };
+        fetch("https://private-atlantic-hosta.glitch.me/users", getOptions)
+            .then (response => response.json())
+            .then(data=>{
+                for (let i=0; i<data.length; i++){
+                    console.log(data[i][this.state.username])
+                    if (data[i][this.state.username]!==undefined && data[i][this.state.username].password===this.state.password){
+                        console.log('valid login')
+                        let userInfo = data[i]
+                        console.log(userInfo)
+                        this.props.onLogin(false,userInfo, this.state.username)
+
+
+                    } else{
+                        console.log('invalid login')
+                    }
+                }
+
+
+            })
+
+
+        // this.props.onRegister(this.state.username, this.state.password)
     }
 
     register = (event) => {

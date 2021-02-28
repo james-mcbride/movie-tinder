@@ -4,8 +4,16 @@ const Intro = (props) => {
         return (
             <div>
                 <h1>Welcome to Movie Tinder!</h1>
-                <h3>Enter your username and password</h3>
-                <h3>Choose one of the options below!</h3>
+                <h3>Review Saved Movies!</h3>
+                <div>
+                    <button onClick={() =>props.onViewingOptionSelect('savedMovies')}>Saved Movies</button>
+                </div>
+
+                <h3>Rate your watched movies!</h3>
+                <div>
+                    <button>Watched Movies</button>
+                </div>
+                <h3>Pick an available movie!!</h3>
                 <div className=' ui grid'>
                     <div className='ui row'>
                         <div className='eight wide column' onClick={() =>props.onViewingOptionSelect('single')}>

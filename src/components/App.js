@@ -16,15 +16,16 @@ class App extends React.Component {
         showMovies: false,
         allMovies: [],
         newUserBoolean: false,
+        savedMovies: [],
+        watchedMovies: [],
+        login: false,
+        username: '',
+        userID: '',
+        userInfo: {},
+
     }
 
-    onLogin = (newUserBoolean, username,password)=>{
-        console.log(username, password)
-        let loginInfo={username: username, password: password}
-        this.setState({
-            login: loginInfo,
-            newUserBoolean: newUserBoolean
-        })
+    componentDidMount(){
 
         const getOptions = {
             method: 'GET',
@@ -36,10 +37,25 @@ class App extends React.Component {
         fetch("https://private-atlantic-hosta.glitch.me/allMovies", getOptions)
             .then (response => response.json())
             .then(data=>{
-                console.log(data)
                 this.setState({allMovies: data})
-
+                console.log(this.state.allMovies)
             })
+    }
+
+    onLogin = (newUserBoolean, userInfo, username)=>{
+
+        this.setState({
+            newUserBoolean: newUserBoolean,
+            allMovies: userInfo[username].allMovies,
+            savedMovies: userInfo[username].savedMovies,
+            watchedMovies: userInfo[username].watchedMovies,
+            userInfo: userInfo,
+            login: true,
+            username: username,
+            userID: userInfo.id
+        })
+
+
     }
 
     onRegister = (allMovies)=>{
@@ -75,15 +91,17 @@ class App extends React.Component {
                 return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
             } else if (this.state.viewingChoice === 'group') {
                 return <GroupSetup moviePreferences={this.onPreferencesSubmit}/>
+            } else if (this.state.viewingChoice==='savedMovies'){
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'}/>
             }
             return <Intro onViewingOptionSelect={this.onViewingOptionSelect}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {
-                return <MovieGenerator movies={this.state.allMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <MovieGenerator movies={this.state.allMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'}/>
             }
         }
     }
