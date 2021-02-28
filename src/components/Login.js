@@ -14,7 +14,13 @@ class Login extends React.Component {
 
     onFormSubmit = (event) => {
         event.preventDefault();
-        this.props.onLogin(this.state.username, this.state.password)
+        this.props.onLogin(false,this.state.username, this.state.password)
+    }
+
+    register = (event) => {
+        event.preventDefault();
+        console.log('register')
+        this.props.onLogin(true,null, null)
     }
 
     render() {
@@ -35,6 +41,8 @@ class Login extends React.Component {
                     <button onClick={this.onFormSubmit}>Submit</button>
 
                 </form>
+                <br/>
+                <h3>Not a user? Register now!     <button onClick={this.register}>Register</button></h3>
             </div>
         )
     }

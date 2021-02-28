@@ -3,35 +3,50 @@ import SingleUserSetup from "./SingleUserSetup";
 
 class GroupSetup extends React.Component {
     state={
-        groupAlreadyCreated: false,
-        preferences: {}
+        newGroupNeeded: false,
+        preferences: {},
+        joinGroupName: '',
+        newGroupName: ''
     }
 
     onPreferencesSubmit = (preferences) => {
-        this.setState({preferences: preferences})
-        console.log(preferences);
+        this.props.moviePreferences(preferences)
     }
 
+    onNewGroupNameChange = (event) => {
+        this.setState({newGroupName: event.target.value})
+    }
+
+    onJoinGroupNameChange = (event) => {
+        this.setState({joinGroupName: event.target.value})
+    }
+
+    onNewGroupSubmission = (event) => {
+        event.preventDefault();
+        this.setState({newGroupNeeded: true})
+    }
+
+
     renderContent(){
-        if (!this.state.groupAlreadyCreated){
+        if (!this.state.newGroupNeeded){
             return (
                 <div>
                     <h2>Create a new group</h2>
                     <form className="ui form"  >
                         <div className="field">
                             <label>Group Name</label>
-                            <input type="text" placeholder="Group Name" />
+                            <input type="text" placeholder="Group Name" value={this.state.newGroupName} onChange={this.onNewGroupNameChange}/>
                         </div>
-                        <button>Submit</button>
+                        <button onClick={this.onNewGroupSubmission}>Submit</button>
                     </form>
                     <h2>Join an existing group</h2>
                     <form className="ui form"  >
                         <div className="field">
                             <label>Group Name</label>
-                            <input type="text" placeholder="Group Name" />
+                            <input type="text" placeholder="Group Name" value={this.state.joinGroupName} onChange={this.onJoinGroupNameChange}/>
                         </div>
                     </form>
-                    <button>submit</button>
+                    <button onClick={()=>this.setState({})}>submit</button>
                 </div>
             )
         } else{
@@ -44,22 +59,7 @@ class GroupSetup extends React.Component {
     render(){
         return (
             <div>
-                <h2>Create a new group</h2>
-                <form className="ui form"  >
-                    <div className="field">
-                        <label>Group Name</label>
-                        <input type="text" placeholder="Group Name" />
-                    </div>
-                    <button>Submit</button>
-                </form>
-                <h2>Join an existing group</h2>
-                <form className="ui form"  >
-                    <div className="field">
-                        <label>Group Name</label>
-                        <input type="text" placeholder="Group Name" />
-                    </div>
-                </form>
-                <button>submit</button>
+                {this.renderContent()}
             </div>
         )
     }
