@@ -23,10 +23,10 @@ class MovieCard extends React.Component {
     }
 
     componentDidMount() {
-        this.onTermSubmit(this.props.movie.title + 'trailer');
+        this.onTermSubmit(this.props.movie.title + ' trailer');
     }
     componentDidUpdate() {
-        this.onTermSubmit(this.props.movie.title + 'trailer');
+        this.onTermSubmit(this.props.movie.title + ' trailer');
 
     }
 
