@@ -7,7 +7,8 @@ import VideoDetail from "./VideoDetail";
 
 class MovieCard extends React.Component {
     state={
-        selectedVideo: null
+        selectedVideo: null,
+        loadYoutube: false
     }
     onTermSubmit = async (term) =>{
         console.log(term);
@@ -22,12 +23,23 @@ class MovieCard extends React.Component {
         });
     }
 
+
     componentDidMount() {
-        this.onTermSubmit(this.props.movie.title + ' trailer');
+        this.setState({loadYoutube: false})
     }
-    componentDidUpdate() {
+
+    loadYoutube = () => {
+        this.setState({loadYoutube: this.props.movie.title})
         this.onTermSubmit(this.props.movie.title + ' trailer');
 
+    }
+
+    renderContent(){
+        if (this.state.loadYoutube===this.props.movie.title) {
+            return <VideoDetail video={this.state.selectedVideo}/>
+        }
+
+        return <button onClick={this.loadYoutube}>Load Youtube Trailer</button>
     }
 
     render() {
@@ -45,7 +57,7 @@ class MovieCard extends React.Component {
                     <div className="movieCard flip-card-back">
                         <h2>{this.props.movie.title} {this.props.movie.year}</h2>
                         <h3>Rotten tomatoes rating: {this.props.movie.rating.Value}</h3>
-                        <VideoDetail video={this.state.selectedVideo} />
+                        <div>{this.renderContent()}</div>
                         <h3>Plot</h3>
                         <div>{this.props.movie.plot}</div>
 
