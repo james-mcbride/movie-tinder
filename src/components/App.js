@@ -22,7 +22,7 @@ class App extends React.Component {
         username: '',
         userID: '',
         userInfo: {},
-
+        returnHome: false
     }
 
     componentDidMount(){
@@ -55,6 +55,7 @@ class App extends React.Component {
                 return counter===0;
             })
             let savedMovies = userInfo[username].savedMovies;
+            let watchedMovies = userInfo[username].watchedMovies;
 
             this.setState({
                 newUserBoolean: newUserBoolean,
@@ -63,7 +64,8 @@ class App extends React.Component {
                 username: username,
                 userID: userInfo.id,
                 allMovies: filteredMovies,
-                savedMovies: savedMovies
+                savedMovies: savedMovies,
+                watchedMovies: watchedMovies
             })
         } else{
             this.setState({
@@ -93,10 +95,21 @@ class App extends React.Component {
     onPreferencesSubmit = (preferences) => {
         this.setState({
             preferences: preferences,
-            showMovies: true
+            showMovies: true,
+            returnHome: false
         })
 
     }
+
+    onReturnHome = (boolean, savedMovies) =>{
+        this.setState({
+            returnHome: true,
+            viewingChoice: '',
+            savedMovies: savedMovies
+
+        })
+    }
+
     renderContent(){
         if(!this.state.login){
             return <Login onLogin = {this.onLogin}/>
@@ -104,22 +117,22 @@ class App extends React.Component {
         if (this.state.newUserBoolean){
             return <Register onRegister={this.onRegister}/>
         }
-        if (!this.state.preferences){
+        if (!this.state.preferences || this.state.returnHome){
             if (this.state.viewingChoice === 'single') {
                 return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
             } else if (this.state.viewingChoice === 'group') {
                 return <GroupSetup moviePreferences={this.onPreferencesSubmit}/>
             } else if (this.state.viewingChoice==='savedMovies'){
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.savedMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.savedMovies} returnHome={this.onReturnHome} savedMovies={this.state.savedMovies} watchedMovies={this.state.watchedMovies}/>
             }
             return <Intro onViewingOptionSelect={this.onViewingOptionSelect}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies} returnHome={this.onReturnHome} savedMovies={this.state.savedMovies} watchedMovies={this.state.watchedMovies}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies} returnHome={this.onReturnHome} savedMovies={this.state.savedMovies} watchedMovies={this.state.watchedMovies}/>
             }
         }
     }

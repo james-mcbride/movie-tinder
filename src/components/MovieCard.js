@@ -2,6 +2,7 @@ import React from 'react';
 import './MovieCard.css'
 import youtube from '../apis/youtube';
 import VideoDetail from "./VideoDetail";
+import MovieCardRating from "./MovieCardRating";
 
 
 
@@ -63,6 +64,7 @@ class MovieCard extends React.Component {
 
                     </div>
                 </div>
+                <MovieCardRating currentMovie={this.props.movie} watchedMovies={this.props.watchedMovies}/>
             </div>
         )
     }

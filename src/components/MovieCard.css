@@ -51,6 +51,16 @@
     padding: 5px;
 }
 
+.movieCard{
+    position: relative
+}
+
+.movieCardRating{
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+}
+
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
     background-color: transparent;
@@ -58,6 +68,7 @@
     border: 1px solid #f1f1f1;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
     height: 80%;
+    position: relative
 }
 
 /* This container is needed to position the front and back side */
@@ -95,5 +106,14 @@
     background-color: dodgerblue;
     color: white;
     transform: rotateY(180deg);
+}
+
+.rating{
+    width: 50px;
+    height: 50px;
+}
+.starDiv{
+    float: left;
+    font-size: medium;
 }
 
