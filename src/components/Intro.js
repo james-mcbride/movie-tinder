@@ -11,7 +11,7 @@ const Intro = (props) => {
 
                 <h3>Rate your watched movies!</h3>
                 <div>
-                    <button>Watched Movies</button>
+                    <button onClick={() =>props.onViewingOptionSelect('watchedMovies')}>Watched Movies</button>
                 </div>
                 <h3>Pick an available movie!!</h3>
                 <div className=' ui grid'>

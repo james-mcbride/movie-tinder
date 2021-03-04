@@ -5,30 +5,33 @@ import HomeButton from "./HomeButton";
 
 class MovieGenerator extends React.Component {
     state={
-        username: this.props.username,
-        userInfo: this.props.userInfo,
         movieNumber: 0,
-        movieType: this.props.movieType,
-        updatedMovies: null,
-        allMovies: this.props.allMovies,
-        savedMovies: []
+        updatedUserInfo: JSON.parse(JSON.stringify(this.props.userInfo)),
+        savedMovies: [],
+        watchedMovies: [],
+        outOfMoviesBoolean: false
     }
 
-    componentDidMount(){
-        this.setState({savedMovies: JSON.parse(JSON.stringify(this.props.savedMovies))})
-    }
+    // componentDidMount(){
+    //     this.setState({
+    //
+    //     })
+    // }
 
     onNextMovie = () => {
         let newMovieNumber = this.state.movieNumber+1;
+        if (newMovieNumber===this.props.allMovies.length){
+            this.setState({outOfMoviesBoolean: true})
+        }
         this.setState({movieNumber: newMovieNumber})
     }
 
     onWatchLater = () => {
-        let updatedUserInfo = this.state.userInfo;
-        let currentMovie=this.state.allMovies[this.state.movieNumber]
-        let currentSavedMovies=this.state.userInfo[this.state.username].savedMovies;
+        let updatedUserInfo=JSON.parse(JSON.stringify(this.state.updatedUserInfo));
+        let currentMovie=this.props.allMovies[this.state.movieNumber]
+        let currentSavedMovies=updatedUserInfo[this.props.username].savedMovies;
         currentSavedMovies.push(currentMovie)
-        updatedUserInfo[this.state.username].savedMovies=currentSavedMovies;
+        updatedUserInfo[this.props.username].savedMovies=currentSavedMovies;
         const putOpt = {
             method: 'put',
             headers: {
@@ -36,54 +39,34 @@ class MovieGenerator extends React.Component {
             },
             body: JSON.stringify(updatedUserInfo)
         }
-        fetch(`https://private-atlantic-hosta.glitch.me/users/${this.state.userInfo.id}`,putOpt)
+        fetch(`https://private-atlantic-hosta.glitch.me/users/${this.props.userInfo.id}`,putOpt)
             .then(response =>console.log(response))
             .catch(error=>console.log(error))
-        let localTrackedSaveMovies=this.state.savedMovies;
-        localTrackedSaveMovies.push(currentMovie);
         let newMovieNumber = this.state.movieNumber+1;
         this.setState({
             movieNumber: newMovieNumber,
-            savedMovies: localTrackedSaveMovies
+            updatedUserInfo: updatedUserInfo
         })
 
     }
 
-    onDeleteMovie = () =>{
-        let updatedUserInfo={}
-        if (this.state.movieType==='allMovies') {
-             updatedUserInfo = this.state.userInfo;
-            let currentMovie = this.state.allMovies[this.state.movieNumber]
-            let currentDeletedList = this.state.userInfo[this.state.username].deletedMovies;
+    onDeleteMovie = () => {
+        let updatedUserInfo = JSON.parse(JSON.stringify(this.state.updatedUserInfo));
+        if (this.props.movieType === 'allMovies') {
+            let currentMovie = this.props.allMovies[this.state.movieNumber]
+            let currentDeletedList = updatedUserInfo[this.props.username].deletedMovies;
             currentDeletedList.push(currentMovie)
-            updatedUserInfo[this.state.username].deletedMovies = currentDeletedList;
-        } else if (this.state.movieType==='savedMovies'){
-             updatedUserInfo = JSON.parse(JSON.stringify(this.state.userInfo));
-            let currentMovie = this.state.allMovies[this.state.movieNumber]
-            let currentSavedList = updatedUserInfo[this.state.username].savedMovies;
-
-            for (let i=0; i<currentSavedList.length; i++){
-                if( currentSavedList[i].title===currentMovie.title){
-                    currentSavedList.splice(i,1);
+            updatedUserInfo[this.props.username].deletedMovies = currentDeletedList;
+        } else if (this.props.movieType === 'savedMovies') {
+            let currentMovie = this.props.allMovies[this.state.movieNumber]
+            let currentSavedList = updatedUserInfo[this.props.username].savedMovies;
+            for (let i = 0; i < currentSavedList.length; i++) {
+                if (currentSavedList[i].title === currentMovie.title) {
+                    currentSavedList.splice(i, 1);
                 }
             }
-            updatedUserInfo[this.state.username].savedMovies=currentSavedList;
-
-            let localTrackedSavedMovies=this.state.savedMovies;
-            for (let i=0; i<localTrackedSavedMovies.length; i++){
-                console.log(localTrackedSavedMovies[i].title)
-                console.log(currentMovie.title)
-                if( localTrackedSavedMovies[i].title===currentMovie.title){
-                    console.log(currentMovie.title + ' was deleted'
-                    )
-                    localTrackedSavedMovies.splice(i,1);
-                }
-            }
-            this.setState({savedMovies: localTrackedSavedMovies})
+            updatedUserInfo[this.props.username].savedMovies = currentSavedList;
         }
-
-
-
         const putOpt = {
             method: 'put',
             headers: {
@@ -92,21 +75,28 @@ class MovieGenerator extends React.Component {
             body: JSON.stringify(updatedUserInfo)
         }
 
-        fetch(`https://private-atlantic-hosta.glitch.me/users/${this.state.userInfo.id}/`, putOpt)
+        fetch(`https://private-atlantic-hosta.glitch.me/users/${this.props.userInfo.id}/`, putOpt)
             .then(response => console.log(response))
             .catch(error => console.log(error))
 
         let newMovieNumber = this.state.movieNumber+1;
-        this.setState({movieNumber: newMovieNumber})
+        this.setState({
+            updatedUserInfo: updatedUserInfo,
+            movieNumber: newMovieNumber
+        })
 
     }
 
 
-    render(){
 
+
+    render(){
+        if (this.state.outOfMoviesBoolean){
+            return <div>You have run out of movies!<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username}/></div>
+        }
         return <div className='movieContainer'>
-            <HomeButton returnHome={this.props.returnHome} savedMovies={this.state.savedMovies} />
-            <MovieCard movie={this.state.allMovies[this.state.movieNumber]} watchedMovies={this.props.watchedMovies}  />
+            <HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} />
+            <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
             <div className='nextMovieButton' onClick={this.onNextMovie}>
                 <i className="caret square right outline icon" />
             </div>

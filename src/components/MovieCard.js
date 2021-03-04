@@ -27,6 +27,8 @@ class MovieCard extends React.Component {
 
     componentDidMount() {
         this.setState({loadYoutube: false})
+        console.log(this.props.userInfo)
+        console.log(this.props.username)
     }
 
     loadYoutube = () => {
@@ -64,7 +66,7 @@ class MovieCard extends React.Component {
 
                     </div>
                 </div>
-                <MovieCardRating currentMovie={this.props.movie} watchedMovies={this.props.watchedMovies}/>
+                <MovieCardRating currentMovie={this.props.movie}  onRatedMovie={this.props.onRatedMovie} userInfo={this.props.userInfo} username={this.props.username} watchedMovies={this.props.watchedMovies}/>
             </div>
         )
     }

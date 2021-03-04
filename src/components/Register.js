@@ -26,13 +26,17 @@ class Register extends React.Component{
         fetch("https://private-atlantic-hosta.glitch.me/users", getOptions)
             .then (response => response.json())
             .then(data=>{
+                let counter=0;
                 for (let i=0; i<data.length; i++){
                     if (data[i][this.state.username]!==undefined){
-                        console.log('username taken')
-                        this.setState({validUserName: false})
-                    } else{
-                        this.setState({validUserName: true})
+                        counter++
                     }
+                }
+                if (counter>0){
+                    alert('username taken, try again')
+                    this.setState({validUserName: false})
+                } else{
+                    this.setState({validUserName: true})
                 }
 
 
@@ -58,7 +62,7 @@ class Register extends React.Component{
                         body: JSON.stringify(newUserObj)
                     }
                     fetch("https://private-atlantic-hosta.glitch.me/users", postOpt)
-                        .then(response => console.log(newUserObj))
+                        .then(response => console.log(response))
                         .catch(error => console.log(error))
 
                 }

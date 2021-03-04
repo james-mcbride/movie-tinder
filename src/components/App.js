@@ -54,18 +54,23 @@ class App extends React.Component {
                 }
                 return counter===0;
             })
-            let savedMovies = userInfo[username].savedMovies;
-            let watchedMovies = userInfo[username].watchedMovies;
+
+            function shuffleArray(array) {
+                for (var i = array.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
+            shuffleArray(filteredMovies);
 
             this.setState({
                 newUserBoolean: newUserBoolean,
                 userInfo: userInfo,
                 login: true,
                 username: username,
-                userID: userInfo.id,
                 allMovies: filteredMovies,
-                savedMovies: savedMovies,
-                watchedMovies: watchedMovies
             })
         } else{
             this.setState({
@@ -77,12 +82,35 @@ class App extends React.Component {
 
     }
 
-    onRegister = (allMovies, username)=>{
-        this.setState({
-            allMovies: allMovies,
-            newUserBoolean: false,
-            username: username
-        })
+    onRegister = (newUserObj, username)=>{
+        let userId=null;
+        const getOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // body: JSON.stringify(reviewObj),
+        };
+        fetch("https://private-atlantic-hosta.glitch.me/users", getOptions)
+            .then (response => response.json())
+            .then(data=>{
+                for (let i=0; i<data.length; i++){
+                    if (data[i][username]!==undefined){
+                        userId=data[i].id;
+                        newUserObj.id=userId
+                        console.log(userId)
+                    }
+                }
+            })
+            .then(()=> {
+                console.log(newUserObj.id)
+                this.setState({
+                    userInfo: newUserObj,
+                    newUserBoolean: false,
+                    username: username,
+
+                })
+            })
 
 
     }
@@ -101,13 +129,27 @@ class App extends React.Component {
 
     }
 
-    onReturnHome = (boolean, savedMovies) =>{
+    onReturnHome = (savedMovies, deletedMovies) =>{
+        let updatedUserInfo=JSON.parse(JSON.stringify(this.state.userInfo));
+        updatedUserInfo[this.state.username].savedMovies=savedMovies;
+        updatedUserInfo[this.state.username].deletedMovies=deletedMovies;
+
         this.setState({
             returnHome: true,
             viewingChoice: '',
-            savedMovies: savedMovies
-
+            userInfo: updatedUserInfo
         })
+    }
+
+    onRatedMovie=(watchedMovies) => {
+        // console.log('updated userinfo below: ')
+        let updatedUserInfo=JSON.parse(JSON.stringify(this.state.userInfo));
+        updatedUserInfo[this.state.username].watchedMovies=watchedMovies;
+        // console.log(updatedUserInfo[this.state.username].watchedMovies)
+        this.setState({
+            userInfo: updatedUserInfo
+        })
+        // console.log(watchedMovies)
     }
 
     renderContent(){
@@ -117,22 +159,25 @@ class App extends React.Component {
         if (this.state.newUserBoolean){
             return <Register onRegister={this.onRegister}/>
         }
+        console.log(this.state.userInfo[this.state.username].watchedMovies)
         if (!this.state.preferences || this.state.returnHome){
             if (this.state.viewingChoice === 'single') {
                 return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
             } else if (this.state.viewingChoice === 'group') {
                 return <GroupSetup moviePreferences={this.onPreferencesSubmit}/>
             } else if (this.state.viewingChoice==='savedMovies'){
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.savedMovies} returnHome={this.onReturnHome} savedMovies={this.state.savedMovies} watchedMovies={this.state.watchedMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.userInfo[this.state.username].savedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+            } else if(this.state.viewingChoice==='watchedMovies'){
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
             return <Intro onViewingOptionSelect={this.onViewingOptionSelect}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies} returnHome={this.onReturnHome} savedMovies={this.state.savedMovies} watchedMovies={this.state.watchedMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.allMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies} returnHome={this.onReturnHome} savedMovies={this.state.savedMovies} watchedMovies={this.state.watchedMovies}/>
+                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
         }
     }

@@ -26,18 +26,23 @@ class Login extends React.Component {
         fetch("https://private-atlantic-hosta.glitch.me/users", getOptions)
             .then (response => response.json())
             .then(data=>{
+                let index=null;
+                let counter=0
                 for (let i=0; i<data.length; i++){
-                    console.log(data[i][this.state.username])
                     if (data[i][this.state.username]!==undefined && data[i][this.state.username].password===this.state.password){
-                        console.log('valid login')
-                        let userInfo = data[i]
-                        console.log(userInfo)
-                        this.props.onLogin(false,userInfo, this.state.username)
+                       counter++;
+                       index=i;
 
 
-                    } else{
-                        console.log('invalid login')
                     }
+                }
+                if (counter>0){
+                    console.log('valid login')
+                    let userInfo = data[index]
+                    console.log(userInfo)
+                    this.props.onLogin(false,userInfo, this.state.username)
+                } else{
+                    alert('invalid login, try again')
                 }
 
 
