@@ -129,16 +129,20 @@ class App extends React.Component {
 
     }
 
-    onReturnHome = (savedMovies, deletedMovies) =>{
+    onReturnHome = (savedMovies, deletedMovies, lastWatchedMovie) =>{
+        console.log(this.state.userInfo)
         let updatedUserInfo=JSON.parse(JSON.stringify(this.state.userInfo));
         updatedUserInfo[this.state.username].savedMovies=savedMovies;
         updatedUserInfo[this.state.username].deletedMovies=deletedMovies;
+        updatedUserInfo[this.state.username].lastWatchedMovie=lastWatchedMovie;
+        console.log(updatedUserInfo)
 
         this.setState({
             returnHome: true,
             viewingChoice: '',
             userInfo: updatedUserInfo
         })
+        console.log(this.state.userInfo)
     }
 
     onRatedMovie=(watchedMovies) => {
@@ -170,7 +174,7 @@ class App extends React.Component {
             } else if(this.state.viewingChoice==='watchedMovies'){
                 return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
-            return <Intro onViewingOptionSelect={this.onViewingOptionSelect}/>
+            return <Intro onViewingOptionSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {

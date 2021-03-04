@@ -1,0 +1,29 @@
+.introPoster img{
+    object-fit: scale-down;
+    height: 100%;
+}
+.introPoster{
+    height: 85%;
+}
+/*.introTitle{*/
+/*    height: 15%;*/
+/*}*/
+
+.introMovieRating{
+    height: 15%;
+}
+.introMovie{
+    height: 100%
+}
+.grid{
+    height: 60%;
+}
+.container{
+    height: 100%;
+}
+.column{
+    height: 100%
+}
+#root{
+    padding: 2%;
+}

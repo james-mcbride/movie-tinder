@@ -116,4 +116,17 @@
     float: left;
     font-size: medium;
 }
+.image{
+    height: 80%
+}
+.image img{
+    object-fit: scale-down;
+    height: 100%
+}
+.content{
+    height: 20%
+}
+
+
+
 

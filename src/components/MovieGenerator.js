@@ -9,7 +9,8 @@ class MovieGenerator extends React.Component {
         updatedUserInfo: JSON.parse(JSON.stringify(this.props.userInfo)),
         savedMovies: [],
         watchedMovies: [],
-        outOfMoviesBoolean: false
+        outOfMoviesBoolean: false,
+        watchNow: false
     }
 
     // componentDidMount(){
@@ -30,7 +31,7 @@ class MovieGenerator extends React.Component {
         let updatedUserInfo=JSON.parse(JSON.stringify(this.state.updatedUserInfo));
         let currentMovie=this.props.allMovies[this.state.movieNumber]
         let currentSavedMovies=updatedUserInfo[this.props.username].savedMovies;
-        currentSavedMovies.push(currentMovie)
+        currentSavedMovies.unshift(currentMovie)
         updatedUserInfo[this.props.username].savedMovies=currentSavedMovies;
         const putOpt = {
             method: 'put',
@@ -87,12 +88,40 @@ class MovieGenerator extends React.Component {
 
     }
 
+    onWatchNow = () =>{
+        let updatedUserInfo = JSON.parse(JSON.stringify(this.state.updatedUserInfo));
+        let currentMovie = this.props.allMovies[this.state.movieNumber]
+        updatedUserInfo[this.props.username].lastWatchedMovie=currentMovie
+        const putOpt = {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedUserInfo)
+        }
+
+        fetch(`https://private-atlantic-hosta.glitch.me/users/${this.props.userInfo.id}/`, putOpt)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+
+        this.setState({
+            updatedUserInfo: updatedUserInfo,
+            watchNow: true
+        })
+    }
+
 
 
 
     render(){
-        if (this.state.outOfMoviesBoolean){
+        if (this.state.outOfMoviesBoolean||this.props.allMovies.length===0){
             return <div>You have run out of movies!<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username}/></div>
+        }
+        if (this.state.watchNow){
+            return <div>
+                    <div>Enjoy watching {this.props.allMovies[this.state.movieNumber].title}! </div>
+                    <HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} />
+                    </div>
         }
         return <div className='movieContainer'>
             <HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} />
@@ -103,7 +132,7 @@ class MovieGenerator extends React.Component {
             <div className='watchLaterButton' onClick={this.onWatchLater}>
                 Watch <br/>Later
             </div>
-            <div className='watchMovie'>
+            <div className='watchMovie' onClick={this.onWatchNow}>
                 Watch <br/>Now!
             </div>
             <div className='deleteMovie' onClick={this.onDeleteMovie} >

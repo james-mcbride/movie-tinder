@@ -70,7 +70,7 @@ class MovieCardRating extends React.Component{
         let watchedMovies = JSON.parse(JSON.stringify(this.props.watchedMovies));
         let updatedWatchedMovie = JSON.parse(JSON.stringify(this.props.currentMovie));
         updatedWatchedMovie.userRating = rating
-        watchedMovies.push(updatedWatchedMovie);
+        watchedMovies.unshift(updatedWatchedMovie);
         let updatedUserInfo = JSON.parse(JSON.stringify(this.props.userInfo));
         updatedUserInfo[this.props.username].watchedMovies = watchedMovies;
         const putOpt = {
