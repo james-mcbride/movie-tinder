@@ -127,6 +127,12 @@
     height: 20%
 }
 
+.submitButton{
+    position: absolute;
+    top: 1%;
+    right: 1%;
+}
+
 
 
 

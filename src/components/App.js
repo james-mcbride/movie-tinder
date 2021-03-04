@@ -7,6 +7,7 @@ import MovieCard from './MovieCard';
 import JSONServer from "../apis/JSONServer";
 import MovieGenerator from "./MovieGenerator";
 import Register from "./Register";
+import GroupMovieGenerator from "./GroupMovieGenerator";
 
 class App extends React.Component {
     state={
@@ -22,7 +23,8 @@ class App extends React.Component {
         username: '',
         userID: '',
         userInfo: {},
-        returnHome: false
+        returnHome: false,
+        groupMovies: ''
     }
 
     componentDidMount(){
@@ -37,7 +39,10 @@ class App extends React.Component {
         fetch("https://private-atlantic-hosta.glitch.me/allMovies", getOptions)
             .then (response => response.json())
             .then(data=>{
-                this.setState({allMovies: data})
+                this.setState({
+                    allMovies: data,
+                    groupMovies: data
+                })
                 console.log(this.state.allMovies)
             })
     }
@@ -156,6 +161,14 @@ class App extends React.Component {
         // console.log(watchedMovies)
     }
 
+    onGroupSetupSubmit =(preferences) =>{
+        this.setState({
+            preferences: preferences,
+            showMovies: true,
+            returnHome: false
+        })
+    }
+
     renderContent(){
         if(!this.state.login){
             return <Login onLogin = {this.onLogin}/>
@@ -168,7 +181,7 @@ class App extends React.Component {
             if (this.state.viewingChoice === 'single') {
                 return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
             } else if (this.state.viewingChoice === 'group') {
-                return <GroupSetup moviePreferences={this.onPreferencesSubmit}/>
+                return <GroupSetup onGroupSetupSubmit={this.onGroupSetupSubmit}/>
             } else if (this.state.viewingChoice==='savedMovies'){
                 return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.userInfo[this.state.username].savedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             } else if(this.state.viewingChoice==='watchedMovies'){
@@ -181,7 +194,7 @@ class App extends React.Component {
                 return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.allMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} allMovies={this.state.allMovies} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+                return <GroupMovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.groupMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
         }
     }
