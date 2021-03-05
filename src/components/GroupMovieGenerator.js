@@ -2,6 +2,7 @@ import React from 'react';
 import MovieCard from "./MovieCard";
 import './MovieCard.css';
 import HomeButton from "./HomeButton";
+import DisplayGroupMovies from "./DisplayGroupMovies";
 
 class GroupMovieGenerator extends React.Component {
     state={
@@ -110,19 +111,29 @@ class GroupMovieGenerator extends React.Component {
             return <div>You have run out of movies!<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username}/></div>
         }
         if (this.state.showVotedMovies){
-            console.log(this.state.groupMovies)
-            const renderedList = this.state.groupMovies.map((movie=>{
-                return <div className='votedMovie'>
-                    <div><img src={movie[0].poster}/></div>
-                    <div>
-                        <div>{movie[0].title }</div>
-                        <div>Votes: {movie[1]}</div>
-                    </div>
-                </div>
-            }))
-            return (
-                <div className='renderedList'>{renderedList}</div>
-            )
+            // console.log(this.state.groupMovies)
+            // const renderedList = this.state.groupMovies.map((movie=>{
+            //     return ( <div className="ui card votedMovie">
+            //         <div className="image">
+            //             <img src={movie[0].poster} />
+            //         </div>
+            //         <div className="content">
+            //             <a className="header">{movie[0].title}</a>
+            //             <div className="meta">
+            //                 <span className="date">Rotten tomatoes rating: {movie[0].rating.Value} </span>
+            //             </div>
+            //             <div className="description">
+            //                 <em>Votes: {movie[1]}</em>
+            //             </div>
+            //         </div>
+            //
+            //     </div>
+            //     )
+            // }))
+            // return (
+            //     <div id='renderedList'>{renderedList}</div>
+            // )
+            return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} />
         }
         return <div className='movieContainer'>
             <div className='submitButton'><button onClick={this.onSubmit}>Submit1</button></div>

@@ -133,6 +133,33 @@
     right: 1%;
 }
 
+#renderedList{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative
+}
+#renderedList .card{
+    width: 220px;
+    margin: 5px
+}
+#renderedList .card .image{
+    height: 72%
+}
+
+#refreshButton{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1000
+}
+.HomeButton{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1000
+
+}
+
 
 
 

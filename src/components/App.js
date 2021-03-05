@@ -136,20 +136,27 @@ class App extends React.Component {
 
     }
 
-    onReturnHome = (savedMovies, deletedMovies, lastWatchedMovie) =>{
-        console.log(this.state.userInfo)
-        let updatedUserInfo=JSON.parse(JSON.stringify(this.state.userInfo));
-        updatedUserInfo[this.state.username].savedMovies=savedMovies;
-        updatedUserInfo[this.state.username].deletedMovies=deletedMovies;
-        updatedUserInfo[this.state.username].lastWatchedMovie=lastWatchedMovie;
-        console.log(updatedUserInfo)
+    onReturnHome = (savedMovies, deletedMovies, lastWatchedMovie, saveInfoBoolean) =>{
+        if (saveInfoBoolean) {
+            console.log(this.state.userInfo)
+            let updatedUserInfo = JSON.parse(JSON.stringify(this.state.userInfo));
+            updatedUserInfo[this.state.username].savedMovies = savedMovies;
+            updatedUserInfo[this.state.username].deletedMovies = deletedMovies;
+            updatedUserInfo[this.state.username].lastWatchedMovie = lastWatchedMovie;
+            console.log(updatedUserInfo)
 
-        this.setState({
-            returnHome: true,
-            viewingChoice: '',
-            userInfo: updatedUserInfo
-        })
-        console.log(this.state.userInfo)
+            this.setState({
+                returnHome: true,
+                viewingChoice: '',
+                userInfo: updatedUserInfo
+            })
+            console.log(this.state.userInfo)
+        } else{
+            this.setState({
+                returnHome: true,
+                viewingChoice: '',
+            })
+        }
     }
 
     onRatedMovie=(watchedMovies) => {
