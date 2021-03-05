@@ -24,7 +24,9 @@ class App extends React.Component {
         userID: '',
         userInfo: {},
         returnHome: false,
-        groupMovies: ''
+        groupMovies: '',
+        groupId: '',
+        groupName: ''
     }
 
     componentDidMount(){
@@ -161,11 +163,13 @@ class App extends React.Component {
         // console.log(watchedMovies)
     }
 
-    onGroupSetupSubmit =(preferences) =>{
+    onGroupSetupSubmit =(preferences, groupId, groupName) =>{
         this.setState({
             preferences: preferences,
             showMovies: true,
-            returnHome: false
+            returnHome: false,
+            groupId: groupId,
+            groupName: groupName
         })
     }
 
@@ -194,7 +198,7 @@ class App extends React.Component {
                 return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.allMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <GroupMovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.groupMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+                return <GroupMovieGenerator groupName={this.state.groupName} groupId={this.state.groupId} userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.groupMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
         }
     }

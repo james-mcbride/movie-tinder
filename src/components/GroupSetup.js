@@ -11,7 +11,6 @@ class GroupSetup extends React.Component {
 
     onPreferencesSubmit = (preferences) => {
         let validGroupName=false
-        let userId=''
         const getOptions = {
             method: 'GET',
             headers: {
@@ -25,13 +24,17 @@ class GroupSetup extends React.Component {
                 if (data.length===0){
                     validGroupName=true;
                 }
+                let counter=0;
                 for (let i=0; i<data.length; i++){
                     if (data[i][this.state.newGroupName]){
-                        alert("Not a valid group name, please try again.")
-
-                    } else{
-                        validGroupName=true;
+                        counter++
                     }
+                }
+                if (counter>0){
+                    alert("Not a valid group name, please try again.")
+                }
+                else{
+                    validGroupName=true;
                 }
 
 
@@ -53,15 +56,16 @@ class GroupSetup extends React.Component {
                         },
                         body: JSON.stringify(newUserObj)
                     }
-                    fetch("https://private-atlantic-hosta.glitch.me/users", postOpt)
+                    fetch("https://private-atlantic-hosta.glitch.me/groups", postOpt)
                         .then (response => response.json())
                         .then(data => {
+                            let userId='';
                             for (let i=0; i<data.length; i++){
                                 if (data[i][this.state.newGroupName]){
                                     userId=data[i].id
                                 }
                             }
-                            this.props.onGroupSetupSubmit(preferences, userId)
+                            this.props.onGroupSetupSubmit(preferences, userId, this.state.newGroupName)
 
                         })
                         .catch(error => console.log(error))
@@ -97,12 +101,23 @@ class GroupSetup extends React.Component {
         fetch("https://private-atlantic-hosta.glitch.me/groups", getOptions)
             .then (response => response.json())
             .then(data=>{
+                console.log(this.state.joinGroupName)
+                let counter=0;
+                let movieIndex=0;
                 for (let i=0; i<data.length; i++){
+                    console.log(data[i])
+                    console.log(data[i][this.state.joinGroupName])
                     if (data[i][this.state.joinGroupName]){
-                        this.props.onGroupSetupSubmit(data[i][this.state.joinGroupName].preferences)
-                    } else{
-                        alert("Not a valid group name, please try again.")
+                        counter++
+                        movieIndex=i;
                     }
+                }
+                if (counter>0){
+                    this.props.onGroupSetupSubmit(data[movieIndex][this.state.joinGroupName].preferences, data[movieIndex].id, this.state.joinGroupName)
+
+                } else{
+                    alert("Not a valid group name, please try again.")
+
                 }
             })
     }
