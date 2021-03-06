@@ -59,13 +59,7 @@ class GroupSetup extends React.Component {
                     fetch("https://private-atlantic-hosta.glitch.me/groups", postOpt)
                         .then (response => response.json())
                         .then(data => {
-                            let userId='';
-                            for (let i=0; i<data.length; i++){
-                                if (data[i][this.state.newGroupName]){
-                                    userId=data[i].id
-                                }
-                            }
-                            this.props.onGroupSetupSubmit(preferences, userId, this.state.newGroupName)
+                            this.props.onGroupSetupSubmit(preferences, data.id, this.state.newGroupName)
 
                         })
                         .catch(error => console.log(error))

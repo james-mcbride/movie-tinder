@@ -171,6 +171,7 @@ class App extends React.Component {
     }
 
     onGroupSetupSubmit =(preferences, groupId, groupName) =>{
+        console.log('Group id after submission is: '+groupId)
         this.setState({
             preferences: preferences,
             showMovies: true,

@@ -59,7 +59,8 @@ class GroupMovieGenerator extends React.Component {
                 console.log(data)
                 console.log(this.props.groupId)
                 for (let i=0; i<data.length; i++){
-                    console.log(data[i].id)
+                    console.log(data[i])
+                    console.log(this.props.groupId)
                     if (data[i].id==[this.props.groupId]){
                         console.log('found a match!')
                         updatedGroupInfo=JSON.parse(JSON.stringify(data[i]))
@@ -82,6 +83,9 @@ class GroupMovieGenerator extends React.Component {
                         updatedSubmittedMovies.push([myMovieSubmissions[i],1]);
                     }
                 }
+                console.log('new issue.....')
+                console.log(updatedGroupInfo)
+                console.log(this.props.groupName)
                 updatedGroupInfo[this.props.groupName].movieSubmissions=updatedSubmittedMovies;
                 this.setState({
                     groupMovies: updatedSubmittedMovies,
