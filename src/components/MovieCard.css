@@ -7,12 +7,15 @@
 }
 
 .nextMovieButton {
+    background-color: white;
+    font-size: large;
+    border: 2px solid black;
     position: absolute;
     height: 10%;
     top: 45%;
     right: 10%;
     z-index: 100;
-    font-size: xxx-large;
+    padding: 5px;
 }
 
 .watchLaterButton {
@@ -58,7 +61,7 @@
 .movieCardRating{
     position: absolute;
     bottom: 10px;
-    left: 40px;
+    left: 10px;
 }
 
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
@@ -121,10 +124,14 @@
 }
 .image img{
     object-fit: scale-down;
-    height: 100%
+    width: 100%
 }
 .content{
-    height: 20%
+    height: 20%;
+    padding: 20px 0 0 0 ;
+}
+#renderedList .content{
+    padding: 30px 14px 0 14px;
 }
 
 .submitButton{
@@ -136,7 +143,12 @@
 #renderedList{
     display: flex;
     flex-wrap: wrap;
-    position: relative
+    position: relative;
+    padding-top: 30px;
+}
+#groupMoviesPage{
+    position: relative;
+    padding-top: 30px;
 }
 #renderedList .card{
     width: 220px;
@@ -157,9 +169,33 @@
     top: 5px;
     right: 5px;
     z-index: 1000
-
 }
 
+#submissionSummary{
+    position: absolute;
+    top: 1px;
+    left: 25%;
+    width: 50%;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.introMovie div{
+    text-align: center
+}
+
+.movieCardRating{
+    width: 100%;
+    text-align: center
+}
+
+#groupMoviesPage .topMovie{
+    margin: 10px auto;
+}
+#groupMoviesPage h2{
+    text-align: center;
+}
 
 
 

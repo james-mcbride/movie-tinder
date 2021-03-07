@@ -11,7 +11,7 @@ const HomeButton = (props) => {
     } else{
         return <div className='HomeButton'>
             <button
-                onClick={() => props.returnHome([], [], [], props.saveInfoBoolean)}>Home
+                onClick={() => props.returnHome(props.groupInfo, [], [], props.saveInfoBoolean)}>Home
             </button>
         </div>
     }

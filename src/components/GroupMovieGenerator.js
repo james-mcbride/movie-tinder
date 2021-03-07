@@ -13,7 +13,8 @@ class GroupMovieGenerator extends React.Component {
         outOfMoviesBoolean: false,
         watchNow: false,
         showVotedMovies: false,
-        groupMovies: []
+        groupMovies: [],
+        groupMembers: []
     }
 
     // componentDidMount(){
@@ -21,6 +22,26 @@ class GroupMovieGenerator extends React.Component {
     //
     //     })
     // }
+
+    sortSubmittedMovies(movieSubmissions, groupMembers){
+        let movieCounts=movieSubmissions.reduce((movieCount, movieSubmission) =>{
+            if (movieCount.indexOf(movieSubmission[1])===-1){
+                movieCount.push(movieSubmission[1])
+            }
+            return movieCount
+        }, [])
+        movieCounts.sort((a,b)=> b-a);
+        console.log(movieSubmissions)
+        console.log('after sorting')
+        if (movieSubmissions.length===1){
+            return movieSubmissions
+        }  else if(groupMembers.length===2){
+            return movieSubmissions.filter(movieSubmission=> movieSubmission[1]===movieCounts[0])
+        } else{
+            return movieSubmissions.filter(movieSubmission=>(movieSubmission[1]===movieCounts[0]||movieSubmission[1]=== movieCounts[1]))
+        }
+
+    }
 
     onNextMovie = () => {
         let newMovieNumber = this.state.movieNumber+1;
@@ -56,11 +77,7 @@ class GroupMovieGenerator extends React.Component {
                 let myMovieSubmissions=this.state.savedMovies;
                 let updatedSubmittedMovies=[]
                 let updatedGroupInfo={};
-                console.log(data)
-                console.log(this.props.groupId)
                 for (let i=0; i<data.length; i++){
-                    console.log(data[i])
-                    console.log(this.props.groupId)
                     if (data[i].id==[this.props.groupId]){
                         console.log('found a match!')
                         updatedGroupInfo=JSON.parse(JSON.stringify(data[i]))
@@ -68,9 +85,6 @@ class GroupMovieGenerator extends React.Component {
                         updatedSubmittedMovies=JSON.parse(JSON.stringify(data[i][this.props.groupName].movieSubmissions))
                     }
                 }
-                console.log('data i grabbed from server')
-                console.log(updatedGroupInfo)
-                console.log(currentSubmittedMovies)
                 for (let i=0; i<myMovieSubmissions.length; i++){
                     let counter=0;
                     for (let j=0; j<currentSubmittedMovies.length; j++){
@@ -83,13 +97,18 @@ class GroupMovieGenerator extends React.Component {
                         updatedSubmittedMovies.push([myMovieSubmissions[i],1]);
                     }
                 }
-                console.log('new issue.....')
-                console.log(updatedGroupInfo)
-                console.log(this.props.groupName)
-                updatedGroupInfo[this.props.groupName].movieSubmissions=updatedSubmittedMovies;
+                let currentGroupMembers = [...updatedGroupInfo[this.props.groupName].groupMembers];
+                if (currentGroupMembers.indexOf(this.props.username)===-1) {
+                    currentGroupMembers.push(this.props.username)
+                    updatedGroupInfo[this.props.groupName].movieSubmissions = updatedSubmittedMovies;
+                    updatedGroupInfo[this.props.groupName].groupMembers = currentGroupMembers;
+                }
+                let sortedSubmittedMovies= this.sortSubmittedMovies(updatedSubmittedMovies, currentGroupMembers)
+
                 this.setState({
-                    groupMovies: updatedSubmittedMovies,
-                    showVotedMovies: true
+                    groupMovies: sortedSubmittedMovies,
+                    showVotedMovies: true,
+                    groupMembers: currentGroupMembers
                 })
                 console.log('Info I just submitted below')
                 console.log(updatedGroupInfo)
@@ -137,7 +156,7 @@ class GroupMovieGenerator extends React.Component {
             // return (
             //     <div id='renderedList'>{renderedList}</div>
             // )
-            return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} />
+            return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} groupMembers={this.state.groupMembers}/>
         }
         return <div className='movieContainer'>
             <div className='submitButton'><button onClick={this.onSubmit}>Submit1</button></div>

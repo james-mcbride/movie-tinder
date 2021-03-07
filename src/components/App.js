@@ -26,7 +26,8 @@ class App extends React.Component {
         returnHome: false,
         groupMovies: '',
         groupId: '',
-        groupName: ''
+        groupName: '',
+        groupInfo: ""
     }
 
     componentDidMount(){
@@ -155,6 +156,7 @@ class App extends React.Component {
             this.setState({
                 returnHome: true,
                 viewingChoice: '',
+                groupInfo: savedMovies
             })
         }
     }
@@ -193,13 +195,13 @@ class App extends React.Component {
             if (this.state.viewingChoice === 'single') {
                 return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
             } else if (this.state.viewingChoice === 'group') {
-                return <GroupSetup onGroupSetupSubmit={this.onGroupSetupSubmit}/>
+                return <GroupSetup onGroupSetupSubmit={this.onGroupSetupSubmit} username={this.state.username} returnHome={this.onReturnHome}/>
             } else if (this.state.viewingChoice==='savedMovies'){
                 return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.userInfo[this.state.username].savedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             } else if(this.state.viewingChoice==='watchedMovies'){
                 return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
-            return <Intro onViewingOptionSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+            return <Intro onViewingOptionSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies} groupInfo={this.state.groupInfo}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {
