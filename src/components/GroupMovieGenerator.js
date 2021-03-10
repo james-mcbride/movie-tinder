@@ -88,7 +88,7 @@ class GroupMovieGenerator extends React.Component {
                 for (let i=0; i<myMovieSubmissions.length; i++){
                     let counter=0;
                     for (let j=0; j<currentSubmittedMovies.length; j++){
-                        if (myMovieSubmissions[i].title===currentSubmittedMovies[j][0].title){
+                        if (myMovieSubmissions[i].Title===currentSubmittedMovies[j][0].Title){
                             counter++;
                             updatedSubmittedMovies[j][1]++;
                         }

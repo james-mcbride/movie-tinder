@@ -53,6 +53,7 @@ class App extends React.Component {
     }
 
     sortMoviesWithPreferences(services, genres, sortingMethod){
+        console.log(services, genres, sortingMethod)
         let allMovies=[];
         for (let i=0; i<this.state.serverMovies.length; i++){
             for (let j=0; j<services.length; j++){
@@ -81,9 +82,89 @@ class App extends React.Component {
         }
         console.log("sorted movies length after genre check: "+sortedGenreMovies.length)
 
-        // if (sortingMethod==="IMDB Rating"){
-        //     sortedGenreMovies.sort()
-        // }
+        if (sortingMethod==="IMDB Rating"){
+            sortedGenreMovies.sort((a,b)=>{
+                if (a.imdbRating==="N/A"){
+                    a.imdbRating=0;
+                } else if(b.imdbRating==="N/A"){
+                    b.imdbRating=0;
+                } else{
+
+                }
+                return Number(b.imdbRating) - Number(a.imdbRating)
+
+            })
+        } else if(sortingMethod==="Box Office Hits"){
+            console.log("sorting by box office hits")
+            sortedGenreMovies.sort((a,b)=>{
+                let ab=a.BoxOffice;
+                let bb=b.BoxOffice;
+
+                if (ab==="N/A" || ab===undefined){
+                    ab="$0";
+                }
+                if(bb==="N/A" ||bb===undefined){
+                    bb="$0";
+                }
+                ab=ab.replaceAll(",", "");
+                bb=bb.replaceAll(",", "")
+                return Number(bb.substr(1)) - Number(ab.substr(1))
+            })
+        } else if(sortingMethod==="Movie Tinder's Choice"){
+
+
+            sortedGenreMovies.sort((a,b)=>{
+                let aa=a.Awards;
+                let ba=b.Awards;
+                let aascore=0;
+                let bascore=0;
+
+                if (aa==="N/A" || aa===undefined){
+                    aa=0
+                } else{
+                    let awards = aa.split(" ")
+                    for (let i=0; i<awards.length; i++){
+                        if (awards[i]==="win"||awards[i]==="wins"){
+                            aascore+=Number(awards[i-1])*10
+                        }
+                        if (awards[i]==="nomination"|| awards[i]==="nominations"){
+                            aascore+=Number(awards[i-1])
+                        }
+                        if ((awards[i]==="Osar."|| awards[i]==="Oscars.")){
+                            if (awards[i-2]==="Won"){
+                                aascore+=Number(awards[i-1])*20;
+                            } else{
+                                aascore+=Number(awards[i-1])*10;
+
+                            }
+                        }
+                    }
+                }
+                if (ba==="N/A" ||ba===undefined){
+                    ba=0;
+                } else{
+                    let awards = ba.split(" ")
+                    for (let i=0; i<awards.length; i++){
+                        if (awards[i]==="win"||awards[i]==="wins"){
+                            bascore+=Number(awards[i-1])*10
+                        }
+                        if (awards[i]==="nomination"|| awards[i]==="nominations"){
+                            bascore+=Number(awards[i-1])
+                        }
+                        if ((awards[i]==="Osar."|| awards[i]==="Oscars.")){
+                            if (awards[i-2]==="Won"){
+                                bascore+=Number(awards[i-1])*20;
+                            } else{
+                                bascore+=Number(awards[i-1])*10;
+
+                            }
+                        }
+                    }
+                }
+                return bascore-aascore;
+            })
+        }
+
         return sortedGenreMovies
 
     }
@@ -188,7 +269,7 @@ class App extends React.Component {
                 array[j] = temp;
             }
         }
-        shuffleArray(filteredMovies);
+        // shuffleArray(filteredMovies);
 
         let userInfo=JSON.parse(JSON.stringify(this.state.userInfo));
         userInfo.services=preferences.services;
