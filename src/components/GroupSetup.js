@@ -9,7 +9,8 @@ class GroupSetup extends React.Component {
         joinGroupName: '',
         newGroupName: '',
         displayGroupMovies: false,
-        groupInfo:{}
+        groupInfo:{},
+        allMovies: []
     }
 
     sortSubmittedMovies(movieSubmissions, groupMembers){
@@ -33,7 +34,22 @@ class GroupSetup extends React.Component {
     }
 
     onPreferencesSubmit = (preferences) => {
-
+        // let allMovies=[];
+        // let streamingServices=preferences.services
+        // console.log(streamingServices)
+        // console.log(allMovies)
+        // for (let i=0; i<this.props.allMovies.length; i++){
+        //     console.log(this.props.allMovies[i])
+        //     for (let j=0; j<streamingServices.length; j++){
+        //         console.log(streamingServices[j])
+        //         if (this.props.allMovies[i][0]===streamingServices[j]){
+        //             console.log("match!")
+        //             allMovies.push.apply(allMovies,this.props.allMovies[i][1])
+        //         }
+        //     }
+        // }
+        // console.log(allMovies)
+        // this.setState({allMovies: allMovies})
         let newUserObj = {};
 
         newUserObj[this.state.newGroupName] = {
@@ -121,17 +137,16 @@ class GroupSetup extends React.Component {
         fetch("https://private-atlantic-hosta.glitch.me/groups", getOptions)
             .then (response => response.json())
             .then(data=>{
-                console.log(this.state.joinGroupName)
+                let preferences={};
                 let counter=0;
                 let movieIndex=0;
                 let currentGroupMembers=[]
                 for (let i=0; i<data.length; i++){
-                    console.log(data[i])
-                    console.log(data[i][this.state.joinGroupName])
                     if (data[i][this.state.joinGroupName]){
                         counter++
                         movieIndex=i;
                         currentGroupMembers=data[i][this.state.joinGroupName].groupMembers
+                        preferences=data[i][this.state.joinGroupName].preferences
                     }
                 }
                 if (counter>0 && currentGroupMembers.indexOf(this.props.username)===-1){
@@ -147,6 +162,23 @@ class GroupSetup extends React.Component {
                     alert("Not a valid group name, please try again.")
 
                 }
+
+                // let allMovies=[];
+                // let streamingServices=preferences.services
+                // console.log(streamingServices)
+                // console.log(allMovies)
+                // for (let i=0; i<this.props.allMovies.length; i++){
+                //     console.log(this.props.allMovies[i])
+                //     for (let j=0; j<streamingServices.length; j++){
+                //         console.log(streamingServices[j])
+                //         if (this.props.allMovies[i][0]===streamingServices[j]){
+                //             console.log("match!")
+                //             allMovies.push.apply(allMovies,this.props.allMovies[i][1])
+                //         }
+                //     }
+                // }
+                // console.log(allMovies)
+                // this.setState({allMovies: allMovies})
             })
     }
 

@@ -32,13 +32,13 @@ class MovieCard extends React.Component {
     }
 
     loadYoutube = () => {
-        this.setState({loadYoutube: this.props.movie.title})
-        this.onTermSubmit(this.props.movie.title + ' trailer');
+        this.setState({loadYoutube: this.props.movie.Title})
+        this.onTermSubmit(this.props.movie.Title + ' trailer');
 
     }
 
     renderContent(){
-        if (this.state.loadYoutube===this.props.movie.title) {
+        if (this.state.loadYoutube===this.props.movie.Title) {
             return <VideoDetail video={this.state.selectedVideo}/>
         }
 
@@ -51,18 +51,18 @@ class MovieCard extends React.Component {
                 <div className='flip-card-inner'>
                     <div className="movieCard flip-card-front">
                         <div className="image">
-                            <img src={this.props.movie.poster}/>
+                            <img src={this.props.movie.Poster}/>
                         </div>
                         <div className="content">
-                            <h2>{this.props.movie.title}</h2>
+                            <h2>{this.props.movie.Title}</h2>
                         </div>
                     </div>
                     <div className="movieCard flip-card-back">
-                        <h2>{this.props.movie.title} {this.props.movie.year}</h2>
-                        <h3>Rotten tomatoes rating: {this.props.movie.rating.Value}</h3>
+                        <h2>{this.props.movie.Title} {this.props.movie.Year}</h2>
+                        <h3>IMDB rating: {this.props.movie.imdbRating}</h3>
                         <div>{this.renderContent()}</div>
                         <h3>Plot</h3>
-                        <div>{this.props.movie.plot}</div>
+                        <div>{this.props.movie.Plot}</div>
 
                     </div>
                 </div>

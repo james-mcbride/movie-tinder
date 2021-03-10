@@ -33,12 +33,12 @@ class SingleUserSetup extends React.Component {
                 <h2>Select the Streaming Services you are signed up for</h2>
                 <div className='ui grid'>
                     <div className='ui row'>
-                        <div className='two wide column' onClick={() =>this.servicesChosen('Netflix')}>Netflix</div>
-                        <div className='two wide column' onClick={() =>this.servicesChosen('Hulu')}>Hulu</div>
-                        <div className='two wide column' onClick={() =>this.servicesChosen('Amazon Prime')}>Amazon Prime</div>
-                        <div className='two wide column' onClick={() =>this.servicesChosen('HBO')}>HBO</div>
-                        <div className='two wide column' onClick={() =>this.servicesChosen('Disney')}>Disney+</div>
-                        <div className='two wide column' onClick={() =>this.servicesChosen('Peacock')}>Peacock</div>
+                        <div className='two wide column' onClick={() =>this.servicesChosen('netflix')}>Netflix</div>
+                        <div className='two wide column' onClick={() =>this.servicesChosen('hulu')}>Hulu</div>
+                        <div className='two wide column' onClick={() =>this.servicesChosen('amazonPrime')}>Amazon Prime</div>
+                        <div className='two wide column' onClick={() =>this.servicesChosen('hbo')}>HBO</div>
+                        <div className='two wide column' onClick={() =>this.servicesChosen('disneyPlus')}>Disney+</div>
+                        <div className='two wide column' onClick={() =>this.servicesChosen('peacock')}>Peacock</div>
                     </div>
                 </div>
                 <h3>Put in your movie generation preferences below</h3>

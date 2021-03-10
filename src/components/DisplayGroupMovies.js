@@ -53,16 +53,12 @@ class DisplayGroupMovies extends React.Component {
             groupMovies=JSON.parse(JSON.stringify(this.state.refreshedMovies))
         }
         let topMovie=groupMovies.reduce((topMovie,movie)=>{
-            // console.log(movie)
-            // console.log(movie[0].rating.Value)
-            // console.log(parseInt(movie[0].rating.value))
-            // console.log(topMovie[0].rating.value)
-            if (parseInt(movie[0].rating.Value)>parseInt(topMovie[0].rating.Value)&&movie[1]>=topMovie[1]){
+
+            if (Number(movie[0].imdbRating)>Number(topMovie[0].imdbRating)&&movie[1]>=topMovie[1]){
                 topMovie=movie;
             }
-            console.log(topMovie)
             return topMovie
-        }, [{rating: {Value: '1%'}},1])
+        }, [{imdbRating: ".1"},0])
         if (this.state.topMovie.title!==topMovie.title){
             this.setState({topMovie: topMovie})
         }
@@ -78,12 +74,12 @@ class DisplayGroupMovies extends React.Component {
         const renderedList = groupMovies.map((movie => {
             return (<div className="ui card votedMovie">
                     <div className="image">
-                        <img src={movie[0].poster}/>
+                        <img src={movie[0].Poster}/>
                     </div>
                     <div className="content">
-                        <a className="header">{movie[0].title}</a>
+                        <a className="header">{movie[0].Title}</a>
                         <div className="meta">
-                            <span className="date">Rotten tomatoes rating: {movie[0].rating.Value} </span>
+                            <span className="date">IMDB rating: {topMovie[0].imdbRating} </span>
                         </div>
                         <div className="description">
                             <em>Votes: {movie[1]}</em>
@@ -101,12 +97,12 @@ class DisplayGroupMovies extends React.Component {
                 <h2>Your groups top Movie so far!</h2>
                 <div className="ui card topMovie">
                     <div className="image">
-                        <img src={topMovie[0].poster}/>
+                        <img src={topMovie[0].Poster}/>
                     </div>
                     <div className="content">
-                        <a className="header">{topMovie[0].title}</a>
+                        <a className="header">{topMovie[0].Title}</a>
                         <div className="meta">
-                            <span className="date">Rotten tomatoes rating: {topMovie[0].rating.Value} </span>
+                            <span className="date">IMDB rating: {topMovie[0].imdbRating} </span>
                         </div>
                         <div className="description">
                             <em>Votes: {topMovie[1]}</em>

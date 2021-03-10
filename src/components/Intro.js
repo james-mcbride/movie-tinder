@@ -45,10 +45,10 @@ class Intro extends React.Component{
                         <div className='nine wide column'>
                             <div className='introMovie'>
                                 <div className="introPoster">
-                                    <img src={this.props.groupInfo.topMovie[0].poster}/>
+                                    <img src={this.props.groupInfo.topMovie[0].Poster}/>
                                     <div className='introTitle'>
                                         Your group, {this.props.groupInfo.groupName}'s top movie: <br/>
-                                        <strong>{this.props.groupInfo.topMovie[0].title}</strong> <br/>
+                                        <strong>{this.props.groupInfo.topMovie[0].Title}</strong> <br/>
                                         {this.props.groupInfo.groupMembers.length} submitted
                                         ({this.props.groupInfo.groupMembers.join(" ")})
                                         <div>
@@ -104,10 +104,10 @@ class Intro extends React.Component{
                         <div className='nine wide column'>
                             <div className='introMovie'>
                                 <div className="introPoster">
-                                    <img src={this.props.userInfo[this.props.username].lastWatchedMovie.poster}/>
+                                    <img src={this.props.userInfo[this.props.username].lastWatchedMovie.Poster}/>
                                     <div className='introTitle'>
                                         Your last watched movie: <br/>
-                                        {this.props.userInfo[this.props.username].lastWatchedMovie.title}
+                                        {this.props.userInfo[this.props.username].lastWatchedMovie.Title}
                                     </div>
                                 </div>
                                 <div className='introMovieRating'>

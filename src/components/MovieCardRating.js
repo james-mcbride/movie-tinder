@@ -11,7 +11,7 @@ class MovieCardRating extends React.Component{
         let counter = 0;
         let watchedMovieIndex = 0;
         for (let i = 0; i < watchedMovies.length; i++) {
-            if (watchedMovies[i].title === this.props.currentMovie.title) {
+            if (watchedMovies[i].Title === this.props.currentMovie.Title) {
                 if (watchedMovies[i].userRating) {
                     watchedMovieIndex = i;
                 }
@@ -19,7 +19,7 @@ class MovieCardRating extends React.Component{
             }
         }
         if (counter > 0) {
-            console.log(watchedMovies[watchedMovieIndex].title+ ' = '+ this.props.currentMovie.title)
+            console.log(watchedMovies[watchedMovieIndex].Title+ ' = '+ this.props.currentMovie.Title)
             this.setState({
                 rating: watchedMovies[watchedMovieIndex].userRating,
                 movieAlreadyRated: true
@@ -35,7 +35,7 @@ class MovieCardRating extends React.Component{
     componentDidUpdate() {
 
         let currentWatchedMovie = JSON.parse(JSON.stringify(this.props.currentMovie));
-        if (currentWatchedMovie.title!==this.state.currentMovie.title){
+        if (currentWatchedMovie.Title!==this.state.currentMovie.Title){
             this.setState({
                 currentMovie: currentWatchedMovie,
                 movieAlreadyRated: false,
@@ -45,8 +45,8 @@ class MovieCardRating extends React.Component{
             let counter = 0;
             let watchedMovieIndex = 0;
             for (let i = 0; i < watchedMovies.length; i++) {
-                if (watchedMovies[i].title === this.props.currentMovie.title) {
-                    console.log(watchedMovies[i].title+ ' = '+ this.props.currentMovie.title)
+                if (watchedMovies[i].Title === this.props.currentMovie.Title) {
+                    console.log(watchedMovies[i].Title+ ' = '+ this.props.currentMovie.Title)
                     if (watchedMovies[i].userRating) {
                         watchedMovieIndex = i;
                     }
@@ -56,7 +56,7 @@ class MovieCardRating extends React.Component{
                 })
             }
             if (counter > 0) {
-                console.log(watchedMovies[watchedMovieIndex].title+ ' = '+ this.props.currentMovie.title)
+                console.log(watchedMovies[watchedMovieIndex].Title+ ' = '+ this.props.currentMovie.Title)
                 this.setState({
                     rating: watchedMovies[watchedMovieIndex].userRating,
                     movieAlreadyRated: true

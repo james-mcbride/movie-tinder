@@ -27,7 +27,8 @@ class App extends React.Component {
         groupMovies: '',
         groupId: '',
         groupName: '',
-        groupInfo: ""
+        groupInfo: "",
+        serverMovies: ""
     }
 
     componentDidMount(){
@@ -39,14 +40,15 @@ class App extends React.Component {
             },
             // body: JSON.stringify(reviewObj),
         };
-        fetch("https://private-atlantic-hosta.glitch.me/allMovies", getOptions)
+        fetch("https://private-atlantic-hosta.glitch.me/streamingMovies", getOptions)
             .then (response => response.json())
             .then(data=>{
+                 let disneyMovies=data[0].disneyPlus;
+                // let netflixMovies=data[1].netflix;
+                // let allMovies=disneyMovies.concat(netflixMovies)
                 this.setState({
-                    allMovies: data,
-                    groupMovies: data
+                    serverMovies: [["disneyPlus",disneyMovies], ["netflix", []], ["hulu", []], ["amazonPrime", []]],
                 })
-                console.log(this.state.allMovies)
             })
     }
 
@@ -78,7 +80,6 @@ class App extends React.Component {
                 userInfo: userInfo,
                 login: true,
                 username: username,
-                allMovies: filteredMovies,
             })
         } else{
             this.setState({
@@ -129,10 +130,43 @@ class App extends React.Component {
     }
 
     onPreferencesSubmit = (preferences) => {
+        let allMovies=[];
+        let streamingServices=preferences.services
+        for (let i=0; i<this.state.serverMovies.length; i++){
+            for (let j=0; j<streamingServices.length; j++){
+                console.log(streamingServices[j])
+                if (this.state.serverMovies[i][0]===streamingServices[j]){
+                    console.log("match!")
+                    allMovies.push.apply(allMovies,this.state.serverMovies[i][1])
+                }
+            }
+        }
+
+        let deletedMovies=this.state.userInfo[this.state.username].deletedMovies;
+        let filteredMovies=allMovies.filter(movie => {
+            let counter=0;
+            for (let i=0; i<deletedMovies.length; i++){
+                if (deletedMovies[i].title===movie.title){
+                    counter++
+                }
+            }
+            return counter===0;
+        })
+
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+        shuffleArray(filteredMovies);
         this.setState({
             preferences: preferences,
             showMovies: true,
-            returnHome: false
+            returnHome: false,
+            allMovies: filteredMovies
         })
 
     }
@@ -174,12 +208,25 @@ class App extends React.Component {
 
     onGroupSetupSubmit =(preferences, groupId, groupName) =>{
         console.log('Group id after submission is: '+groupId)
+
+        let allMovies=[];
+        let streamingServices=preferences.services
+        for (let i=0; i<this.state.serverMovies.length; i++){
+            for (let j=0; j<streamingServices.length; j++){
+                console.log(streamingServices[j])
+                if (this.state.serverMovies[i][0]===streamingServices[j]){
+                    console.log("match!")
+                    allMovies.push.apply(allMovies,this.state.serverMovies[i][1])
+                }
+            }
+        }
         this.setState({
             preferences: preferences,
             showMovies: true,
             returnHome: false,
             groupId: groupId,
-            groupName: groupName
+            groupName: groupName,
+            groupMovies: allMovies
         })
     }
 
@@ -190,7 +237,6 @@ class App extends React.Component {
         if (this.state.newUserBoolean){
             return <Register onRegister={this.onRegister}/>
         }
-        console.log(this.state.userInfo[this.state.username].watchedMovies)
         if (!this.state.preferences || this.state.returnHome){
             if (this.state.viewingChoice === 'single') {
                 return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
