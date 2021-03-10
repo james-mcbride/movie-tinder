@@ -52,6 +52,42 @@ class App extends React.Component {
             })
     }
 
+    sortMoviesWithPreferences(services, genres, sortingMethod){
+        let allMovies=[];
+        for (let i=0; i<this.state.serverMovies.length; i++){
+            for (let j=0; j<services.length; j++){
+                if (this.state.serverMovies[i][0]===services[j]){
+                    allMovies.push.apply(allMovies,this.state.serverMovies[i][1])
+                }
+            }
+        }
+        let sortedGenreMovies=[]
+        console.log('allMovies length: '+allMovies.length)
+        if (genres[0]==="All"){
+            sortedGenreMovies=allMovies;
+        } else{
+            sortedGenreMovies=allMovies.filter(movie=>{
+                let counter=0;
+                for (let i=0; i<genres.length; i++){
+                    if (movie.Genre.includes(genres[i])){
+                        counter++
+                    }
+                    if (counter>0){
+                        break;
+                    }
+                }
+                return counter>0;
+            })
+        }
+        console.log("sorted movies length after genre check: "+sortedGenreMovies.length)
+
+        // if (sortingMethod==="IMDB Rating"){
+        //     sortedGenreMovies.sort()
+        // }
+        return sortedGenreMovies
+
+    }
+
     onLogin = (newUserBoolean, userInfo, username)=>{
         if (newUserBoolean===false) {
             let deletedMovies=userInfo[username].deletedMovies;
@@ -130,17 +166,8 @@ class App extends React.Component {
     }
 
     onPreferencesSubmit = (preferences) => {
-        let allMovies=[];
-        let streamingServices=preferences.services
-        for (let i=0; i<this.state.serverMovies.length; i++){
-            for (let j=0; j<streamingServices.length; j++){
-                console.log(streamingServices[j])
-                if (this.state.serverMovies[i][0]===streamingServices[j]){
-                    console.log("match!")
-                    allMovies.push.apply(allMovies,this.state.serverMovies[i][1])
-                }
-            }
-        }
+        console.log(preferences)
+        let allMovies=this.sortMoviesWithPreferences(preferences.services, preferences.genre, preferences.sorting)
 
         let deletedMovies=this.state.userInfo[this.state.username].deletedMovies;
         let filteredMovies=allMovies.filter(movie => {
@@ -162,11 +189,16 @@ class App extends React.Component {
             }
         }
         shuffleArray(filteredMovies);
+
+        let userInfo=JSON.parse(JSON.stringify(this.state.userInfo));
+        userInfo.services=preferences.services;
+
         this.setState({
             preferences: preferences,
             showMovies: true,
             returnHome: false,
-            allMovies: filteredMovies
+            allMovies: filteredMovies,
+            userInfo: userInfo
         })
 
     }
@@ -208,18 +240,10 @@ class App extends React.Component {
 
     onGroupSetupSubmit =(preferences, groupId, groupName) =>{
         console.log('Group id after submission is: '+groupId)
+        console.log(preferences)
+        let allMovies=this.sortMoviesWithPreferences(preferences.services, preferences.genre, preferences.sorting)
 
-        let allMovies=[];
-        let streamingServices=preferences.services
-        for (let i=0; i<this.state.serverMovies.length; i++){
-            for (let j=0; j<streamingServices.length; j++){
-                console.log(streamingServices[j])
-                if (this.state.serverMovies[i][0]===streamingServices[j]){
-                    console.log("match!")
-                    allMovies.push.apply(allMovies,this.state.serverMovies[i][1])
-                }
-            }
-        }
+
         this.setState({
             preferences: preferences,
             showMovies: true,
@@ -239,7 +263,7 @@ class App extends React.Component {
         }
         if (!this.state.preferences || this.state.returnHome){
             if (this.state.viewingChoice === 'single') {
-                return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
+                return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} services={this.state.userInfo.services} />
             } else if (this.state.viewingChoice === 'group') {
                 return <GroupSetup onGroupSetupSubmit={this.onGroupSetupSubmit} username={this.state.username} returnHome={this.onReturnHome}/>
             } else if (this.state.viewingChoice==='savedMovies'){

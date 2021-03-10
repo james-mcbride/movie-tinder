@@ -159,7 +159,7 @@ class GroupMovieGenerator extends React.Component {
             return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} groupMembers={this.state.groupMembers}/>
         }
         return <div className='movieContainer'>
-            <div className='submitButton'><button onClick={this.onSubmit}>Submit1</button></div>
+            <div className='submitButton'><button onClick={this.onSubmit}>Submit</button></div>
             <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
             <div className='nextMovieButton' onClick={this.onNextMovie}>
                 <i className="caret square right outline icon" />

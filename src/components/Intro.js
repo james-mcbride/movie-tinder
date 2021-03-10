@@ -103,18 +103,19 @@ class Intro extends React.Component{
                         </div>
                         <div className='nine wide column'>
                             <div className='introMovie'>
-                                <div className="introPoster">
+                                <div className="introPoster" id="lastWatchedMovie">
                                     <img src={this.props.userInfo[this.props.username].lastWatchedMovie.Poster}/>
                                     <div className='introTitle'>
                                         Your last watched movie: <br/>
                                         {this.props.userInfo[this.props.username].lastWatchedMovie.Title}
                                     </div>
+                                    <div className='introMovieRating'>
+                                        <MovieCardRating currentMovie={this.props.userInfo[this.props.username].lastWatchedMovie}
+                                                         onRatedMovie={this.props.onRatedMovie} userInfo={this.props.userInfo}
+                                                         username={this.props.username} watchedMovies={this.props.watchedMovies}/>
+                                    </div>
                                 </div>
-                                <div className='introMovieRating'>
-                                    <MovieCardRating currentMovie={this.props.userInfo[this.props.username].lastWatchedMovie}
-                                                     onRatedMovie={this.props.onRatedMovie} userInfo={this.props.userInfo}
-                                                     username={this.props.username} watchedMovies={this.props.watchedMovies}/>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -160,11 +161,17 @@ class Intro extends React.Component{
                                 </button>
                             </div>
                         </div>
-                        <div className='eight wide column'>
-                            <div>Your last saved Movie</div>
-                            <MovieCard movie={this.props.userInfo[this.props.username].savedMovies[0]}
-                                       username={this.props.username} userInfo={this.props.userInfo}
-                                       onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
+                        <div className='eight wide column' id="lastSavedMovie">
+                            <img src={this.props.userInfo[this.props.username].savedMovies[0].Poster}/>
+                            <div className='introTitle'>
+                                Your last saved Movie: <br/>
+                                {this.props.userInfo[this.props.username].savedMovies[0].Title}
+                            </div>
+                            <div className='introMovieRating'>
+                                <MovieCardRating currentMovie={this.props.userInfo[this.props.username].savedMovies[0]}
+                                                 onRatedMovie={this.props.onRatedMovie} userInfo={this.props.userInfo}
+                                                 username={this.props.username} watchedMovies={this.props.watchedMovies}/>
+                            </div>
                         </div>
                     </div>
                     <h3>Pick an available movie!!</h3>
@@ -240,7 +247,7 @@ class Intro extends React.Component{
     }
 
     render(){
-        return <div>{this.renderContent()}</div>
+        return <div id="outerContainer">{this.renderContent()}</div>
     }
 }
 

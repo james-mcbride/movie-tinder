@@ -79,7 +79,7 @@ class DisplayGroupMovies extends React.Component {
                     <div className="content">
                         <a className="header">{movie[0].Title}</a>
                         <div className="meta">
-                            <span className="date">IMDB rating: {topMovie[0].imdbRating} </span>
+                            <span className="date">IMDB rating: {movie[0].imdbRating} </span>
                         </div>
                         <div className="description">
                             <em>Votes: {movie[1]}</em>

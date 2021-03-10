@@ -15,11 +15,18 @@
 .introMovie{
     height: 100%
 }
-.grid{
+#poster{
     height: 60%;
 }
+/*.grid{*/
+/*    max-height: 50%;*/
+/*}*/
 .container{
     height: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid black;
+    padding: 5px 10px;
 }
 .column{
     height: 100%
@@ -29,6 +36,18 @@
 }
 
 #poster img{
-    width: 100%;
-    height: auto;
+    /*width: 100%;*/
+    object-fit: contain;
+}
+
+#lastSavedMovie .introMovieRating, #lastWatchedMovie .introMovieRating{
+    position: inherit;
+    height: 20px
+}
+#lastSavedMovie .movieCardRating, #lastWatchedMovie .movieCardRating{
+    position: inherit
+}
+
+#outerContainer{
+    height: 100%;
 }
