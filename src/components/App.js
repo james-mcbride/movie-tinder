@@ -44,10 +44,12 @@ class App extends React.Component {
             .then (response => response.json())
             .then(data=>{
                  let disneyMovies=data[0].disneyPlus;
+                 let netflixMovies=data[1].netflix
+                let huluMovies=data[2].hulu
                 // let netflixMovies=data[1].netflix;
                 // let allMovies=disneyMovies.concat(netflixMovies)
                 this.setState({
-                    serverMovies: [["disneyPlus",disneyMovies], ["netflix", []], ["hulu", []], ["amazonPrime", []]],
+                    serverMovies: [["disneyPlus",disneyMovies], ["netflix", netflixMovies], ["hulu", huluMovies], ["amazonPrime", []]],
                 })
             })
     }
@@ -58,10 +60,16 @@ class App extends React.Component {
         for (let i=0; i<this.state.serverMovies.length; i++){
             for (let j=0; j<services.length; j++){
                 if (this.state.serverMovies[i][0]===services[j]){
+                    let movies=this.state.serverMovies[i][1].map(movie=>{
+                        movie.service=this.state.serverMovies[i][0]
+                        return movie
+                    })
+
                     allMovies.push.apply(allMovies,this.state.serverMovies[i][1])
                 }
             }
         }
+
         let sortedGenreMovies=[]
         console.log('allMovies length: '+allMovies.length)
         if (genres[0]==="All"){

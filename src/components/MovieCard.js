@@ -55,6 +55,7 @@ class MovieCard extends React.Component {
                         </div>
                         <div className="content">
                             <h2>{this.props.movie.Title}</h2>
+                            {this.props.movie.service}
                         </div>
                     </div>
                     <div className="movieCard flip-card-back">
