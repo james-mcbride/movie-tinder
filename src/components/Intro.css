@@ -51,3 +51,6 @@
 #outerContainer{
     height: 100%;
 }
+#searchList>.row{
+    padding: 5px;
+}

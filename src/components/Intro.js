@@ -4,6 +4,7 @@ import './Intro.css'
 import MovieCardRating from "./MovieCardRating";
 import DisplayGroupMovies from "./DisplayGroupMovies";
 import './MovieCard.css'
+import Search from "./Search";
 
 class Intro extends React.Component{
     state={
@@ -30,17 +31,18 @@ class Intro extends React.Component{
                     <h1>Welcome to Movie Tinder!</h1>
                     <div className='ui grid' id='poster'>
                         <div className='seven wide column'>
-                            <br/>
                             <h3>Review Saved Movies!</h3>
                             <div>
                                 <button onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved Movies</button>
                             </div>
-                            <br/>
                             <h3>Rate your watched movies!</h3>
                             <div>
                                 <button onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched Movies
                                 </button>
                             </div>
+                            <br />
+                            <Search serverMovies={this.props.serverMovies}/>
+
                         </div>
                         <div className='nine wide column'>
                             <div className='introMovie'>
@@ -89,17 +91,17 @@ class Intro extends React.Component{
                     <h1>Welcome to Movie Tinder!</h1>
                     <div className='ui grid' id='poster'>
                         <div className='seven wide column'>
-                            <br/>
                             <h3>Review Saved Movies!</h3>
                             <div>
                                 <button onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved Movies</button>
                             </div>
-                            <br/>
                             <h3>Rate your watched movies!</h3>
                             <div>
                                 <button onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched Movies
                                 </button>
                             </div>
+                            <br />
+                            <Search serverMovies={this.props.serverMovies}/>
                         </div>
                         <div className='nine wide column'>
                             <div className='introMovie'>
@@ -149,17 +151,17 @@ class Intro extends React.Component{
                     <h1>Welcome to Movie Tinder!</h1>
                     <div className='ui grid'>
                         <div className='eight wide column'>
-                            <br/>
                             <h3>Review Saved Movies!</h3>
                             <div>
                                 <button onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved Movies</button>
                             </div>
-                            <br/>
                             <h3>Rate your watched movies!</h3>
                             <div>
                                 <button onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched Movies
                                 </button>
                             </div>
+                            <br />
+                            <Search serverMovies={this.props.serverMovies}/>
                         </div>
                         <div className='eight wide column' id="lastSavedMovie">
                             <img src={this.props.userInfo[this.props.username].savedMovies[0].Poster}/>
@@ -214,8 +216,10 @@ class Intro extends React.Component{
                                 <button onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched Movies
                                 </button>
                             </div>
+                            <br />
                         </div>
                         <div className='eight wide column'>
+                            <Search serverMovies={this.props.serverMovies}/>
 
                         </div>
                     </div>
