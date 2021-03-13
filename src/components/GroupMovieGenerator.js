@@ -162,10 +162,10 @@ class GroupMovieGenerator extends React.Component {
             <div className='submitButton'><button onClick={this.onSubmit}>Submit</button></div>
             <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
             <div className='nextMovieButton' onClick={this.onNextMovie}>
-                <i className="caret square right outline icon" />
+                Skip
             </div>
             <div className='watchLaterButton' onClick={this.onWatchLater}>
-                Watch <br/>Later
+                Watch <br/>Now!
             </div>
         </div>
     }

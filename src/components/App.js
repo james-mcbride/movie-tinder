@@ -70,6 +70,7 @@ class App extends React.Component {
             }
         }
 
+
         let sortedGenreMovies=[]
         console.log('allMovies length: '+allMovies.length)
         if (genres[0]==="All"){

@@ -8,7 +8,7 @@ class DisplayGroupMovies extends React.Component {
         pageRefresh: false,
         refreshedMovies: [],
         groupMembers: JSON.parse(JSON.stringify(this.props.groupMembers)),
-        topMovie: {title: ""}
+        topMovie: [{title: ""},0]
     }
 
 
@@ -53,15 +53,19 @@ class DisplayGroupMovies extends React.Component {
             groupMovies=JSON.parse(JSON.stringify(this.state.refreshedMovies))
         }
         let topMovie=groupMovies.reduce((topMovie,movie)=>{
-
-            if (Number(movie[0].imdbRating)>Number(topMovie[0].imdbRating)&&movie[1]>=topMovie[1]){
-                topMovie=movie;
+            console.log("topMovie "+topMovie[0].Title+" IMDBRating"+topMovie[0].imdbRating+" votes"+ topMovie[1])
+             console.log("movie "+ movie[0].Title+" IMDBRating"+movie[0].imdbRating+" votes"+ movie[1])
+            if (movie[1]>topMovie[1]||(Number(movie[0].imdbRating)>=Number(topMovie[0].imdbRating)&&movie[1]>=topMovie[1])){
+                // console.log(movie[0],movie[1],topMovie[0],topMovie[1])
+                topMovie=JSON.parse(JSON.stringify(movie));
             }
             return topMovie
         }, [{imdbRating: ".1"},0])
-        if (this.state.topMovie.title!==topMovie.title){
+        console.log(topMovie)
+        if (this.state.topMovie.Title!==topMovie.Title){
             this.setState({topMovie: topMovie})
         }
+        console.log(topMovie)
 
         let groupInfo = {
             groupMovies: groupMovies,
