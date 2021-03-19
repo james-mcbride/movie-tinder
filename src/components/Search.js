@@ -35,9 +35,9 @@ class Search extends React.Component{
    }
 
     searchMoviesDropdown(movie) {
-        let apiKey = ""
+        let apiKey = "8dbab255"
         let movies = []
-        fetch(`http://www.omdbapi.com/?s=${movie}&apikey=${apiKey}`)
+        fetch(`https://www.omdbapi.com/?s=${movie}&apikey=${apiKey}`)
             .then(response => response.json())
             .then(data => {
                 if (data.Response === "True") {

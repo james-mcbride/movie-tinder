@@ -54,3 +54,7 @@
 #searchList>.row{
     padding: 5px;
 }
+#searchList{
+    overflow: hidden;
+    max-height: 225px;
+}

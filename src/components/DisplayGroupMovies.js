@@ -72,8 +72,9 @@ class DisplayGroupMovies extends React.Component {
             groupId: this.props.groupId,
             groupName: this.props.groupName,
             groupMembers: this.state.groupMembers,
-            topMovie: this.state.topMovie
+            topMovie: topMovie
         }
+        console.log(groupInfo)
 
         const renderedList = groupMovies.map((movie => {
             return (<div className="ui card votedMovie">

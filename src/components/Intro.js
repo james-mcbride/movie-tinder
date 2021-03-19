@@ -8,19 +8,25 @@ import Search from "./Search";
 
 class Intro extends React.Component{
     state={
-        displayGroupMovies: false
+        displayGroupMovies: false,
     }
 
     onDisplayGroupMovies = (event) =>{
         event.preventDefault();
         this.setState({displayGroupMovies: true})
     }
-    returnHome = () =>{
-        this.setState({displayGroupMovies: false})
+    returnHome = (groupInfo, arr1, arr2, bool) =>{
+        console.log(groupInfo);
+        this.setState({
+            displayGroupMovies: false,
+        })
     }
 
     renderContent() {
+        console.log(this.props.groupInfo)
         if (this.state.displayGroupMovies){
+            console.log(this.props.groupInfo.groupMovies)
+            console.log(this.props.groupInfo.topMovie)
             return <div>
                 <DisplayGroupMovies returnHome={this.returnHome} groupMovies={this.props.groupInfo.groupMovies} groupId={this.props.groupInfo.groupId} groupName={this.props.groupInfo.groupName} groupMembers={this.props.groupInfo.groupMembers}/>
             </div>
@@ -147,7 +153,7 @@ class Intro extends React.Component{
             )
         } else if (this.props.userInfo[this.props.username].savedMovies.length > 0) {
             return (
-                <div>
+                <div className="container">
                     <h1>Welcome to Movie Tinder!</h1>
                     <div className='ui grid'>
                         <div className='eight wide column'>
@@ -202,7 +208,7 @@ class Intro extends React.Component{
             )
         } else {
             return (
-                <div>
+                <div className="container">
                     <h1>Welcome to Movie Tinder!</h1>
                     <div className='ui grid'>
                         <div className='eight wide column'>
