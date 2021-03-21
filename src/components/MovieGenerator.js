@@ -113,16 +113,15 @@ class MovieGenerator extends React.Component {
 
     renderContent(){
         if (this.state.outOfMoviesBoolean||this.props.allMovies.length===0){
-            return <div>You have run out of movies!<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/></div>
+            return <div>You have run out of movies!</div>
         }
         if (this.state.watchNow){
             return <div>
                 <div>Enjoy watching {this.props.allMovies[this.state.movieNumber].title}! </div>
-                <HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>
             </div>
         }
         return (<div className="movieContainer">
-            <HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>
+            {/*<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>*/}
             <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
             <div className='nextMovieButton' onClick={this.onNextMovie}>
                 Skip <br/> Movie

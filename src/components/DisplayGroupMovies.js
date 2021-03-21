@@ -98,7 +98,6 @@ class DisplayGroupMovies extends React.Component {
             <div id='groupMoviesPage'>
                 <div id='submissionSummary'>{this.returnGroupMembers(this.state.groupMembers)}</div>
                 <button id='refreshButton' onClick={this.onPageRefresh}>Refresh</button>
-                <HomeButton returnHome={this.props.returnHome} groupInfo={groupInfo} username={"null"} saveInfoBoolean={false}/>
                 <h2>Your groups top Movie so far!</h2>
                 <div className="ui card topMovie">
                     <div className="image">

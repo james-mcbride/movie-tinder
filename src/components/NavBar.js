@@ -1,6 +1,7 @@
 import React from "react";
 
 const NavBar = (props) => {
+    console.log(props.activeTab)
     let home="";
     let single="";
     let group="";
@@ -45,7 +46,7 @@ const NavBar = (props) => {
                 <a className={`item ${home}`} onClick={() => props.returnHome(props.userInfo[props.username].savedMovies, props.userInfo[props.username].deletedMovies, props.userInfo[props.username].lastWatchedMovie, props.saveInfoBoolean, "")}>
                     Home
                 </a>
-                <a className={`item ${single}`} onClick={() => props.returnHome(props.userInfo[props.username].savedMovies, props.userInfo[props.username].deletedMovies, props.userInfo[props.username].lastWatchedMovie, props.saveInfoBoolean, "single")}>
+                <a className={`item ${single}`} onClick={() => props.returnHome(props.userInfo[props.username].savedMovies, props.userInfo[props.username].deletedMovies, props.userInfo[props.username].lastWatchedMovie, props.saveInfoBoolean, "singleViewing")}>
                     Single Viewing
                 </a>
                 <a className={`item ${group}`} onClick={() => props.returnHome(props.userInfo[props.username].savedMovies, props.userInfo[props.username].deletedMovies, props.userInfo[props.username].lastWatchedMovie, props.saveInfoBoolean, "group")}>

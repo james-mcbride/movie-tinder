@@ -9,9 +9,15 @@ class GroupSetup extends React.Component {
         preferences: {},
         joinGroupName: '',
         newGroupName: '',
-        displayGroupMovies: false,
+        displayOldGroupMovies: false,
         groupInfo:{},
-        allMovies: []
+        allMovies: [],
+        displayGroupMovies: false
+    }
+
+    onDisplayGroupMovies = (event) =>{
+        event.preventDefault();
+        this.setState({displayGroupMovies: true})
     }
 
     sortSubmittedMovies(movieSubmissions, groupMembers){
@@ -156,7 +162,7 @@ class GroupSetup extends React.Component {
                 } else if(counter>0 && currentGroupMembers.indexOf(this.props.username)!==-1){
                     alert("You have already submitted the movies for this group, you will be redirected to the group movie page.")
                     this.setState({
-                        displayGroupMovies: true,
+                        displayOldGroupMovies: true,
                         groupInfo: data[movieIndex]
                     })
                 }else{
@@ -186,34 +192,94 @@ class GroupSetup extends React.Component {
 
 
     renderContent() {
-
-        if (this.state.displayGroupMovies){
+        if (this.state.displayGroupMovies) {
+            console.log(this.props.groupInfo.groupMovies)
+            console.log(this.props.groupInfo.topMovie)
+            return <div>
+                <DisplayGroupMovies returnHome={this.returnHome} groupMovies={this.props.groupInfo.groupMovies}
+                                    groupId={this.props.groupInfo.groupId} groupName={this.props.groupInfo.groupName}
+                                    groupMembers={this.props.groupInfo.groupMembers}/>
+            </div>
+        }
+        if (this.state.displayOldGroupMovies){
             let sortedGroupMovies=this.sortSubmittedMovies([...this.state.groupInfo[this.state.joinGroupName].movieSubmissions], [...this.state.groupInfo[this.state.joinGroupName].groupMembers] )
             console.log(sortedGroupMovies)
             return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={sortedGroupMovies} groupId={this.state.groupInfo.id} groupName={this.state.joinGroupName} groupMembers={this.state.groupInfo[this.state.joinGroupName].groupMembers}/>
 
         }
         if (!this.state.newGroupNeeded){
-            return (
-                <div>
-                    <h2>Create a new group</h2>
-                    <form className="ui form"  >
-                        <div className="field">
-                            <label>Group Name</label>
-                            <input type="text" placeholder="Group Name" value={this.state.newGroupName} onChange={this.onNewGroupNameChange}/>
+            if (this.props.groupInfo) {
+                return (
+                    <div className="ui grid">
+                        <div className="ui row">
+                            <div className="eight wide column">
+                                <h2>Join an existing group</h2>
+                                <form className="ui form">
+                                    <div className="field">
+                                        <label>Group Name</label>
+                                        <input type="text" placeholder="Group Name" value={this.state.joinGroupName}
+                                               onChange={this.onJoinGroupNameChange}/>
+                                    </div>
+                                </form>
+                                <button onClick={this.onJoinGroupSubmission}>submit</button>
+                                <br/>
+                                <br/>
+                                <h2>Create a new group</h2>
+                                <form className="ui form">
+                                    <div className="field">
+                                        <label>Group Name</label>
+                                        <input type="text" placeholder="Group Name" value={this.state.newGroupName}
+                                               onChange={this.onNewGroupNameChange}/>
+                                    </div>
+                                    <button onClick={this.onNewGroupSubmission}>Submit</button>
+                                </form>
+                            </div>
+                            <div className="eight wide column">
+                                <div className='introMovie'>
+                                    <div className="introPoster">
+                                        <img src={this.props.groupInfo.topMovie[0].Poster}/>
+                                        <div className='introTitle'>
+                                            Your group, {this.props.groupInfo.groupName}'s top movie: <br/>
+                                            <strong>{this.props.groupInfo.topMovie[0].Title}</strong> <br/>
+                                            {this.props.groupInfo.groupMembers.length} submitted
+                                            ({this.props.groupInfo.groupMembers.join(" ")})
+                                            <div>
+                                                <button onClick={this.onDisplayGroupMovies}>View updated status</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button onClick={this.onNewGroupSubmission}>Submit</button>
-                    </form>
-                    <h2>Join an existing group</h2>
-                    <form className="ui form"  >
-                        <div className="field">
-                            <label>Group Name</label>
-                            <input type="text" placeholder="Group Name" value={this.state.joinGroupName} onChange={this.onJoinGroupNameChange}/>
-                        </div>
-                    </form>
-                    <button onClick={this.onJoinGroupSubmission}>submit</button>
-                </div>
-            )
+
+
+                    </div>
+                )
+            } else{
+                return (
+                    <div>
+                        <h2>Join an existing group</h2>
+                        <form className="ui form">
+                            <div className="field">
+                                <label>Group Name</label>
+                                <input type="text" placeholder="Group Name" value={this.state.joinGroupName}
+                                       onChange={this.onJoinGroupNameChange}/>
+                            </div>
+                        </form>
+                        <button onClick={this.onJoinGroupSubmission}>submit</button>
+                        <h2>Create a new group</h2>
+                        <form className="ui form">
+                            <div className="field">
+                                <label>Group Name</label>
+                                <input type="text" placeholder="Group Name" value={this.state.newGroupName}
+                                       onChange={this.onNewGroupNameChange}/>
+                            </div>
+                            <button onClick={this.onNewGroupSubmission}>Submit</button>
+                        </form>
+
+                    </div>
+                )
+            }
         } else{
             return <div>
                 <SingleUserSetup moviePreferences={this.onPreferencesSubmit} tab="group" />

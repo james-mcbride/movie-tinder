@@ -54,7 +54,7 @@ class SingleViewing extends React.Component{
 
     render(){
         return <div id="outerContainer">
-            <NavBar tabSelect={this.props.tabSelect} activeTab="single returnHome={this.onReturnHome}"/>
+            <NavBar tabSelect={this.props.tabSelect} activeTab="single" returnHome={this.onReturnHome}/>
             <div className='container'>
                 <h1>Welcome to Movie Tinder!</h1>
                 <div className='ui grid' id='poster'>
@@ -72,7 +72,7 @@ class SingleViewing extends React.Component{
                     </div>
                     <div className='nine wide column'>
                         <div className='introMovie'>
-
+                            {this.renderContent()}
                         </div>
                     </div>
                 </div>
