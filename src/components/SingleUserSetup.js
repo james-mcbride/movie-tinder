@@ -1,5 +1,6 @@
 import React from 'react';
 import "./Preferences.css"
+import NavBar from "./NavBar";
 
 class SingleUserSetup extends React.Component {
     state={
@@ -103,10 +104,18 @@ class SingleUserSetup extends React.Component {
         return <div id="sortingMethodList">{renderedList}</div>
     }
 
+    renderContent(){
+        if (this.props.tab==="group"){
+            return (<NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.onReturnHome}/>)
+        } else{
+            return (<NavBar tabSelect={this.props.tabSelect} activeTab="single" returnHome={this.onReturnHome}/>)
+        }
+    }
 
     render() {
         return (
             <div id="preferencesContainer">
+                {this.renderContent()}
                 <h2>Movie Tinder Preferences</h2>
                 <h3>Select the Streaming Services you are signed up for</h3>
                 <div className='ui grid'>

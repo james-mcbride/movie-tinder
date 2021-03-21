@@ -8,6 +8,7 @@ import JSONServer from "../apis/JSONServer";
 import MovieGenerator from "./MovieGenerator";
 import Register from "./Register";
 import GroupMovieGenerator from "./GroupMovieGenerator";
+import SingleViewing from "./SingleViewing"
 
 class App extends React.Component {
     state={
@@ -293,7 +294,7 @@ class App extends React.Component {
 
     }
 
-    onReturnHome = (savedMovies, deletedMovies, lastWatchedMovie, saveInfoBoolean) =>{
+    onReturnHome = (savedMovies, deletedMovies, lastWatchedMovie, saveInfoBoolean, viewingChoice) =>{
         if (saveInfoBoolean) {
             console.log(this.state.userInfo)
             let updatedUserInfo = JSON.parse(JSON.stringify(this.state.userInfo));
@@ -304,7 +305,7 @@ class App extends React.Component {
 
             this.setState({
                 returnHome: true,
-                viewingChoice: '',
+                viewingChoice: viewingChoice,
                 userInfo: updatedUserInfo
             })
             console.log(this.state.userInfo)
@@ -353,22 +354,24 @@ class App extends React.Component {
         }
         if (!this.state.preferences || this.state.returnHome){
             if (this.state.viewingChoice === 'single') {
-                return <SingleUserSetup moviePreferences={this.onPreferencesSubmit} services={this.state.userInfo.services} />
+                return <SingleUserSetup tab="single" moviePreferences={this.onPreferencesSubmit} services={this.state.userInfo.services} tabSelect={this.onViewingOptionSelect} />
+            }else if (this.state.viewingChoice === 'singleViewing') {
+                return <SingleViewing tab="single" onViewingOptionSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome} tabSelect={this.onViewingOptionSelect}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies} groupInfo={this.state.groupInfo} serverMovies={this.state.serverMovies}/>
             } else if (this.state.viewingChoice === 'group') {
-                return <GroupSetup onGroupSetupSubmit={this.onGroupSetupSubmit} username={this.state.username} returnHome={this.onReturnHome}/>
+                return <GroupSetup tabSelect={this.onViewingOptionSelect} onGroupSetupSubmit={this.onGroupSetupSubmit} username={this.state.username} returnHome={this.onReturnHome}/>
             } else if (this.state.viewingChoice==='savedMovies'){
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.userInfo[this.state.username].savedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+                return <MovieGenerator tabSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'savedMovies'} allMovies={this.state.userInfo[this.state.username].savedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             } else if(this.state.viewingChoice==='watchedMovies'){
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+                return <MovieGenerator tabSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
-            return <Intro onViewingOptionSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies} groupInfo={this.state.groupInfo} serverMovies={this.state.serverMovies}/>
+            return <Intro onViewingOptionSelect={this.onViewingOptionSelect} userInfo={this.state.userInfo} username={this.state.username} movieType={'watchedMovies'} allMovies={this.state.userInfo[this.state.username].watchedMovies} returnHome={this.onReturnHome}  onRatedMovie={this.onRatedMovie} watchedMovies={this.state.userInfo[this.state.username].watchedMovies} groupInfo={this.state.groupInfo} serverMovies={this.state.serverMovies} tabSelect={this.onViewingOptionSelect}/>
         }
         if (this.state.showMovies) {
             if (this.state.viewingChoice === 'single') {
-                return <MovieGenerator userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.allMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+                return <MovieGenerator tabSelect={this.onViewingOptionSelect} tab="movieGenerator" userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.allMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
             if (this.state.viewingChoice === 'group') {
-                return <GroupMovieGenerator groupName={this.state.groupName} groupId={this.state.groupId} userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.groupMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
+                return <GroupMovieGenerator tabSelect={this.onViewingOptionSelect} tab="groupMovieGenerator" groupName={this.state.groupName} groupId={this.state.groupId} userInfo={this.state.userInfo} username={this.state.username} movieType={'allMovies'} returnHome={this.onReturnHome} onRatedMovie={this.onRatedMovie} allMovies={this.state.groupMovies} watchedMovies={this.state.userInfo[this.state.username].watchedMovies}/>
             }
         }
     }
@@ -378,6 +381,7 @@ class App extends React.Component {
         //Also need to be able to choose the streaming services they have, and how they want to choose movies (genre, rating, views, etc.)
         //We will call this intro
         return(
+
             <div style={{height: '100%'}}>
                 {this.renderContent()}
             </div>

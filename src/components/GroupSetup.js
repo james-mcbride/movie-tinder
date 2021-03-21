@@ -1,6 +1,7 @@
 import React from 'react';
 import SingleUserSetup from "./SingleUserSetup";
 import DisplayGroupMovies from "./DisplayGroupMovies";
+import NavBar from "./NavBar";
 
 class GroupSetup extends React.Component {
     state={
@@ -215,7 +216,7 @@ class GroupSetup extends React.Component {
             )
         } else{
             return <div>
-                <SingleUserSetup moviePreferences={this.onPreferencesSubmit} />
+                <SingleUserSetup moviePreferences={this.onPreferencesSubmit} tab="group" />
             </div>
         }
 
@@ -223,6 +224,7 @@ class GroupSetup extends React.Component {
     render(){
         return (
             <div>
+                <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.onReturnHome}/>
                 {this.renderContent()}
             </div>
         )
