@@ -46,19 +46,53 @@ class Search extends React.Component{
             })
     }
     renderContent(){
-        if (this.state.movies===[]){
+        if (this.state.search===""){
             return <div></div>
 
         }else{
             let renderedList = this.state.movies.map((movie => {
+                console.log(movie)
                 return (
-                    <div className="ui row">
-                        <div className="eight wide column">{movie.Title}</div>
-                        <div className="four wide column">{this.searchServerMovies(movie)}</div>
-                    </div>
+                    <tr>
+                        <td>
+                            <h4 className="ui image header">
+                                <img src={movie.Poster} className="ui mini rounded image" />
+                                    <div className="content">
+                                        {movie.Title}
+                                        <div className="sub header">{movie.Year}
+                                        </div>
+                                    </div>
+                            </h4>
+                        </td>
+                        <td>{this.searchServerMovies(movie)}</td>
+                    </tr>
+                    // <div className="ui row">
+                    //     <div className="eight wide column">{movie.Title}</div>
+                    //     <div className="four wide column">{this.searchServerMovies(movie)}</div>
+                    // </div>
                 )
             }))
-            return <div className="ui grid" id="searchList">{renderedList}</div>
+            return (
+                <table className="ui unstackable table" id="movieTable">
+                    <thead>
+                    <tr>
+                        <th className="thirteen wide">Movie Title</th>
+                        <th className="three wide">Availability</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {renderedList}
+                    </tbody>
+                </table>
+            )
+
+                /*// <div className="ui grid" id="searchList">*/
+                /*//     <div className="ui row">*/
+                /*//         <div className="eight wide column">Title</div>*/
+                /*//         <div className="four wide column">Availability</div>*/
+                /*//     </div>*/
+                /*//     {renderedList}*/
+                /*// </div>*/
 
 
         }
@@ -68,11 +102,13 @@ class Search extends React.Component{
        return (
            <div>
                <div>
-                   <h2>Search for movies!</h2>
+                   <h3>Search streaming services for movie availability!</h3>
+                   <div class="ui large icon input">
+                       <input type="text" placeholder="Enter movie here" value={this.state.search}
+                              onChange={this.onSearchChange}/>
+                       <i className="search icon"></i>
 
-                   <label>Search</label>
-                   <input type="text" placeholder="Enter movie here" value={this.state.search} onChange={this.onSearchChange}/>
-                   <br />
+                   </div>
                    <br />
                    {this.renderContent()}
                </div>
