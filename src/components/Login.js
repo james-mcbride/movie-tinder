@@ -4,7 +4,8 @@ class Login extends React.Component {
     state ={
         username: '',
         password: '',
-        userInfo: ''
+        userInfo: '',
+        loading: false
     }
     onUsernameChange = (event) =>{
         this.setState({username: event.target.value})
@@ -15,6 +16,7 @@ class Login extends React.Component {
 
     onFormSubmit = (event) => {
         event.preventDefault();
+        this.setState({loading:true})
 
         const getOptions = {
             method: 'GET',
@@ -43,6 +45,8 @@ class Login extends React.Component {
                     this.props.onLogin(false,userInfo, this.state.username)
                 } else{
                     alert('invalid login, try again')
+                    this.setState({loading:false})
+
                 }
 
 
@@ -56,6 +60,20 @@ class Login extends React.Component {
         event.preventDefault();
         console.log('register')
         this.props.onLogin(true,null, null)
+    }
+
+    renderContent(){
+        if (this.state.loading){
+            return (
+                <div className="ui segment">
+                    <div className="ui active inverted dimmer">
+                        <div className="ui medium text loader">Sorry, Jimmie is still learning to code, and the database he is using will take one minute to wake up....</div>
+                    </div>
+                    <p></p>
+                    <p></p>
+                </div>
+            )
+        }
     }
 
     render() {

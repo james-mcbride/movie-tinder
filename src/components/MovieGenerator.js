@@ -120,7 +120,7 @@ class MovieGenerator extends React.Component {
                 <div>Enjoy watching {this.props.allMovies[this.state.movieNumber].title}! </div>
             </div>
         }
-        return (<div className="movieContainer">
+        return (<div className="movieContainer" >
             {/*<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>*/}
             <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
             <div className='nextMovieButton' onClick={this.onNextMovie}>

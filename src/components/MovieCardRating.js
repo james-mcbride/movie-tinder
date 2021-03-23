@@ -226,7 +226,7 @@ class MovieCardRating extends React.Component{
 
     render(){
         // console.log(this.props.watchedMovies)
-        return <div className='movieCardRating'><br/>{this.renderContent()}</div>
+        return <div className='movieCardRating'>{this.renderContent()}</div>
     }
 
 }

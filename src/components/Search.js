@@ -56,7 +56,7 @@ class Search extends React.Component{
                     <tr>
                         <td>
                             <h4 className="ui image header">
-                                <img src={movie.Poster} className="ui mini rounded image" />
+                                <img src={movie.Poster} className="ui massive rounded image" />
                                     <div className="content">
                                         {movie.Title}
                                         <div className="sub header">{movie.Year}

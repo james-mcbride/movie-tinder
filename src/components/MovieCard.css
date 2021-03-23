@@ -65,11 +65,16 @@
 .movieCard{
     position: relative
 }
-
-.movieCardRating{
+#movieCardContainer .movieCardRating{
     position: absolute;
     bottom: 10px;
     left: 10px;
+}
+
+.movieCardRating{
+    /*position: absolute;*/
+    /*bottom: 10px;*/
+    /*left: 10px;*/
 }
 
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
@@ -123,8 +128,11 @@
     width: 50px;
     height: 50px;
 }
+.stars{
+    display: flex;
+}
 .starDiv{
-    float: left;
+    /*float: left;*/
     font-size: medium;
 }
 .image{

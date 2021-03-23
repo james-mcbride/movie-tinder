@@ -55,12 +55,12 @@ class SingleViewing extends React.Component{
     render(){
         return <div id="outerContainer">
             <NavBar tabSelect={this.props.tabSelect} activeTab="single" returnHome={this.onReturnHome}/>
-            <div className='container'>
-                <h1>Welcome to Movie Tinder!</h1>
+            <div id='container'>
+                <h2 className="ui block header center aligned">Movie Tinder: Solo Viewing!</h2>
                 <div className='ui grid' id='poster'>
-                    <div className='seven wide column'>
-                        <div className='' onClick={() => this.props.onViewingOptionSelect('single')}>
-                            <button onClick={() => this.props.onViewingOptionSelect('single')}>Single Viewing</button>
+                    <div className='seven wide column '>
+                        <div className='allMovies' onClick={() => this.props.onViewingOptionSelect('single')}>
+                            <button className="ui blue button large" onClick={() => this.props.onViewingOptionSelect('single')}>All Movies</button>
                             <div>Review all of the movies available on your subscribed streaming services. You can
                                 track/rate the movies you've watched, choose movies to watch later, and receive
                                 updates
@@ -76,21 +76,22 @@ class SingleViewing extends React.Component{
                         </div>
                     </div>
                 </div>
-                <h3>Review your saved / Watched Movies</h3>
+
+                <h3 className="ui block header center aligned">Review your saved / Watched Movies</h3>
                 <div className=' ui grid'>
                     <div className='ui row'>
                         <div className="eight wide column">
                             <h3>Review Saved Movies!</h3>
                             <div>
-                                <button onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved
+                                <button className="ui blue button large" onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved
                                     Movies
                                 </button>
                             </div>
                         </div>
                         <div className="eight wide column">
-                            <h3>Rate your watched movies!</h3>
+                            <h3>Rate Watched Movies!</h3>
                             <div>
-                                <button onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched
+                                <button className="ui blue button large" onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched
                                     Movies
                                 </button>
                             </div>

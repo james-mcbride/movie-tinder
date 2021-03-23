@@ -47,7 +47,7 @@ class MovieCard extends React.Component {
 
     render() {
         return (
-            <div className='flip-card'>
+            <div className='flip-card' id="movieCardContainer">
                 <div className='flip-card-inner'>
                     <div className="movieCard flip-card-front">
                         <div className="image">
