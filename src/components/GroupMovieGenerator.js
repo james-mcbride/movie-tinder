@@ -3,6 +3,7 @@ import MovieCard from "./MovieCard";
 import './MovieCard.css';
 import HomeButton from "./HomeButton";
 import DisplayGroupMovies from "./DisplayGroupMovies";
+import NavBar from "./NavBar";
 
 class GroupMovieGenerator extends React.Component {
     state={
@@ -156,6 +157,7 @@ class GroupMovieGenerator extends React.Component {
             // return (
             //     <div id='renderedList'>{renderedList}</div>
             // )
+            <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.onReturnHome}/>
             return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} groupMembers={this.state.groupMembers}/>
         }
         return <div className='movieContainer'>

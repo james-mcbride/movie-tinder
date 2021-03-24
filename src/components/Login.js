@@ -69,10 +69,10 @@ class Login extends React.Component {
                     <div className="ui active inverted dimmer">
                         <div className="ui medium text loader">Sorry, Jimmie is still learning to code, and the database he is using will take one minute to wake up....</div>
                     </div>
-                    <p></p>
-                    <p></p>
                 </div>
             )
+        } else{
+            return <div></div>
         }
     }
 
@@ -96,6 +96,7 @@ class Login extends React.Component {
                 </form>
                 <br/>
                 <h3>Not a user? Register now!     <button onClick={this.register}>Register</button></h3>
+                {this.renderContent()}
             </div>
         )
     }

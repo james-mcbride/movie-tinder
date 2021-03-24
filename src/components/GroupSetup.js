@@ -192,25 +192,29 @@ class GroupSetup extends React.Component {
 
 
     renderContent() {
+        // console.log("group info below ")
+        // console.log(this.props.groupInfo.groupMovies)
         if (this.state.displayGroupMovies) {
             console.log(this.props.groupInfo.groupMovies)
             console.log(this.props.groupInfo.topMovie)
             return <div>
-                <DisplayGroupMovies returnHome={this.returnHome} groupMovies={this.props.groupInfo.groupMovies}
+                <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.props.groupInfo.groupMovies}
                                     groupId={this.props.groupInfo.groupId} groupName={this.props.groupInfo.groupName}
-                                    groupMembers={this.props.groupInfo.groupMembers}/>
+                                    groupMembers={this.props.groupInfo.groupMembers} tabSelect={this.props.tabSelect}/>
             </div>
         }
         if (this.state.displayOldGroupMovies){
             let sortedGroupMovies=this.sortSubmittedMovies([...this.state.groupInfo[this.state.joinGroupName].movieSubmissions], [...this.state.groupInfo[this.state.joinGroupName].groupMembers] )
             console.log(sortedGroupMovies)
-            return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={sortedGroupMovies} groupId={this.state.groupInfo.id} groupName={this.state.joinGroupName} groupMembers={this.state.groupInfo[this.state.joinGroupName].groupMembers}/>
+            return <DisplayGroupMovies tabSelect={this.props.tabSelect} returnHome={this.props.returnHome} groupMovies={sortedGroupMovies} groupId={this.state.groupInfo.id} groupName={this.state.joinGroupName} groupMembers={this.state.groupInfo[this.state.joinGroupName].groupMembers}/>
 
         }
         if (!this.state.newGroupNeeded){
             if (this.props.groupInfo) {
                 return (
+
                     <div className="ui grid">
+                        <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.props.returnHome}  username={"null"} saveInfoBoolean={false}/>
                         <div className="ui row">
                             <div className="eight wide column">
                                 <h2>Join an existing group</h2>
@@ -220,10 +224,13 @@ class GroupSetup extends React.Component {
                                         <input type="text" placeholder="Group Name" value={this.state.joinGroupName}
                                                onChange={this.onJoinGroupNameChange}/>
                                     </div>
+                                    <button className="ui blue button" onClick={this.onJoinGroupSubmission}>Submit</button>
+
                                 </form>
-                                <button onClick={this.onJoinGroupSubmission}>submit</button>
                                 <br/>
                                 <br/>
+                                <hr />
+
                                 <h2>Create a new group</h2>
                                 <form className="ui form">
                                     <div className="field">
@@ -231,23 +238,42 @@ class GroupSetup extends React.Component {
                                         <input type="text" placeholder="Group Name" value={this.state.newGroupName}
                                                onChange={this.onNewGroupNameChange}/>
                                     </div>
-                                    <button onClick={this.onNewGroupSubmission}>Submit</button>
+                                    <button className="ui blue button" onClick={this.onNewGroupSubmission}>Submit</button>
                                 </form>
                             </div>
                             <div className="eight wide column">
                                 <div className='introMovie'>
-                                    <div className="introPoster">
-                                        <img src={this.props.groupInfo.topMovie[0].Poster}/>
-                                        <div className='introTitle'>
-                                            Your group, {this.props.groupInfo.groupName}'s top movie: <br/>
-                                            <strong>{this.props.groupInfo.topMovie[0].Title}</strong> <br/>
-                                            {this.props.groupInfo.groupMembers.length} submitted
-                                            ({this.props.groupInfo.groupMembers.join(" ")})
-                                            <div>
-                                                <button onClick={this.onDisplayGroupMovies}>View updated status</button>
+                                    <div className=" ui card">
+                                        <div className="image">
+                                            <img src={this.props.groupInfo.topMovie[0].Poster} />
+                                        </div>
+                                        <div className="content">
+                                            <div className="header">{this.props.groupInfo.topMovie[0].Title}</div>
+                                            <div className="meta">
+                                                <a>Group: {this.props.groupInfo.groupName}</a>
+                                            </div>
+                                            <div className="description">
+                                                {this.props.groupInfo.groupMembers.length} submitted
+                                                ({this.props.groupInfo.groupMembers.join(" ")})
                                             </div>
                                         </div>
+                                        <div className="extra content">
+                                            <button className="ui button blue small" onClick={this.onDisplayGroupMovies}>View updated status</button>
+
+                                        </div>
                                     </div>
+                                    {/*<div className="introPoster">*/}
+                                    {/*    <img src={this.props.groupInfo.topMovie[0].Poster}/>*/}
+                                    {/*    <div className='introTitle'>*/}
+                                    {/*        Your group, {this.props.groupInfo.groupName}'s top movie: <br/>*/}
+                                    {/*        <strong>{this.props.groupInfo.topMovie[0].Title}</strong> <br/>*/}
+                                    {/*        {this.props.groupInfo.groupMembers.length} submitted*/}
+                                    {/*        ({this.props.groupInfo.groupMembers.join(" ")})*/}
+                                    {/*        <div>*/}
+                                    {/*            <button onClick={this.onDisplayGroupMovies}>View updated status</button>*/}
+                                    {/*        </div>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
                                 </div>
                             </div>
                         </div>
@@ -255,9 +281,55 @@ class GroupSetup extends React.Component {
 
                     </div>
                 )
+            // } else if (this.props.groupInfo) {
+            //     return (
+            //         <div className='container ui grid'>
+            //             <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.props.returnHome}  username={"null"} saveInfoBoolean={false}/>/>
+            //             <div className="ui row">
+            //                 <div className='seven wide column'>
+            //                     <h3>Join Existing Group</h3>
+            //                     <form className="ui form">
+            //                         <div className="field">
+            //                             <label>Group Name</label>
+            //                             <input type="text" placeholder="Group Name" value={this.state.joinGroupName}
+            //                                    onChange={this.onJoinGroupNameChange}/>
+            //                         </div>
+            //                     </form>
+            //                 </div>
+            //                 <div className='nine wide column'>
+            //                     <div className='introMovie'>
+            //                         <div className="introPoster">
+            //                             <img src={this.props.groupInfo.topMovie[0].Poster}/>
+            //                             <div className='introTitle'>
+            //                                 Your group, {this.props.groupInfo.groupName}'s top movie: <br/>
+            //                                 <strong>{this.props.groupInfo.topMovie[0].Title}</strong> <br/>
+            //                                 {this.props.groupInfo.groupMembers.length} submitted
+            //                                 ({this.props.groupInfo.groupMembers.join(" ")})
+            //                                 <div>
+            //                                     <button onClick={this.onDisplayGroupMovies}>View updated status</button>
+            //                                 </div>
+            //                             </div>
+            //                         </div>
+            //                     </div>
+            //                 </div>
+            //             </div>
+            //             <div>
+            //                 <h2>Create a new group</h2>
+            //                 <form className="ui form">
+            //                     <div className="field">
+            //                         <label>Group Name</label>
+            //                         <input type="text" placeholder="Group Name" value={this.state.newGroupName}
+            //                                onChange={this.onNewGroupNameChange}/>
+            //                     </div>
+            //                     <button onClick={this.onNewGroupSubmission}>Submit</button>
+            //                 </form>
+            //             </div>
+            //         </div>
+            //     )
             } else{
                 return (
                     <div>
+                        <NavBar tabSelect={this.props.tabSelect} activeTab="group" />
                         <h2>Join an existing group</h2>
                         <form className="ui form">
                             <div className="field">
@@ -265,8 +337,9 @@ class GroupSetup extends React.Component {
                                 <input type="text" placeholder="Group Name" value={this.state.joinGroupName}
                                        onChange={this.onJoinGroupNameChange}/>
                             </div>
+                            <button className="ui blue button" onClick={this.onJoinGroupSubmission}>Submit</button>
+
                         </form>
-                        <button onClick={this.onJoinGroupSubmission}>submit</button>
                         <h2>Create a new group</h2>
                         <form className="ui form">
                             <div className="field">
@@ -274,7 +347,7 @@ class GroupSetup extends React.Component {
                                 <input type="text" placeholder="Group Name" value={this.state.newGroupName}
                                        onChange={this.onNewGroupNameChange}/>
                             </div>
-                            <button onClick={this.onNewGroupSubmission}>Submit</button>
+                            <button className="ui blue button" onClick={this.onNewGroupSubmission}>Submit</button>
                         </form>
 
                     </div>
@@ -282,7 +355,7 @@ class GroupSetup extends React.Component {
             }
         } else{
             return <div>
-                <SingleUserSetup moviePreferences={this.onPreferencesSubmit} tab="group" />
+                <SingleUserSetup moviePreferences={this.onPreferencesSubmit} tab="group" tabSelect={this.props.tabSelect}/>
             </div>
         }
 
@@ -290,7 +363,6 @@ class GroupSetup extends React.Component {
     render(){
         return (
             <div>
-                <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.onReturnHome}/>
                 {this.renderContent()}
             </div>
         )

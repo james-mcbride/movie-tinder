@@ -2,13 +2,15 @@ import React from 'react';
 import MovieCard from "./MovieCard";
 import './MovieCard.css';
 import HomeButton from "./HomeButton";
+import NavBar from "./NavBar";
 
 class DisplayGroupMovies extends React.Component {
     state={
         pageRefresh: false,
         refreshedMovies: [],
         groupMembers: JSON.parse(JSON.stringify(this.props.groupMembers)),
-        topMovie: [{title: ""},0]
+        topMovie: [{title: ""},0],
+        groupInfo:{}
     }
 
 
@@ -74,7 +76,7 @@ class DisplayGroupMovies extends React.Component {
             groupMembers: this.state.groupMembers,
             topMovie: topMovie
         }
-        console.log(groupInfo)
+
 
         const renderedList = groupMovies.map((movie => {
             return (<div className="ui card votedMovie">
@@ -95,7 +97,9 @@ class DisplayGroupMovies extends React.Component {
             )
         }))
         return (
-            <div id='groupMoviesPage'>
+            <div>
+                <NavBar tabSelect={this.props.tabSelect} activeTab="displayGroupMovies" returnHome={this.props.returnHome} groupInfo={groupInfo} username={"null"} saveInfoBoolean={false}/>
+                <div id='groupMoviesPage'>
                 <div id='submissionSummary'>{this.returnGroupMembers(this.state.groupMembers)}</div>
                 <button id='refreshButton' onClick={this.onPageRefresh}>Refresh</button>
                 <h2>Your groups top Movie so far!</h2>
@@ -119,10 +123,13 @@ class DisplayGroupMovies extends React.Component {
                 {renderedList}
             </div>
             </div>
+            </div>
         )
     }
     render(){
-        return <div>{this.renderContent()}</div>
+        return <div>
+            {this.renderContent()}
+        </div>
     }
 
 }

@@ -1,29 +1,54 @@
 import React from "react";
 
 const NavBar = (props) => {
-    console.log(props.activeTab)
+    console.log(props.userInfo)
     let home="";
     let single="";
     let group="";
+    let displayGroupMovies=false;
     let saveChanges=false;
     function setActiveTab(tab){
         if (tab==="home"){
             home="active"
+            return true;
         } else if (tab==="single"){
             single="active"
+            return true;
         }else if(tab==="group"){
             group="active"
+            return true;
         } else if(tab==="movieGenerator"){
             single="active";
             saveChanges=true;
-        } else{
+            return true;
+        } if(tab==="displayGroupMovies"){
+            displayGroupMovies=true;
+            return true;
+        }else{
             group="active";
             saveChanges=true;
+            return true;
         }
     }
 
-
     setActiveTab(props.activeTab)
+
+
+    if (displayGroupMovies){
+        return (
+            <div className="ui blue three item inverted menu">
+                <a className={`item ${home}`} onClick={() => props.returnHome(props.groupInfo, [], [], props.saveInfoBoolean, "")}>
+                    Home
+                </a>
+                <a className={`item ${single}`} onClick={() => props.returnHome(props.groupInfo, [], [], props.saveInfoBoolean, "singleViewing")}>
+                    Single Viewing
+                </a>
+                <a className={`item ${group}`} onClick={() => props.returnHome(props.groupInfo, [], [], props.saveInfoBoolean, "group")}>
+                    Group Viewing
+                </a>
+            </div>
+        )
+    }
     if (!saveChanges) {
         return (
             <div className="ui blue three item inverted menu">

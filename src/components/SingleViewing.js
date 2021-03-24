@@ -54,7 +54,7 @@ class SingleViewing extends React.Component{
 
     render(){
         return <div id="outerContainer">
-            <NavBar tabSelect={this.props.tabSelect} activeTab="single" returnHome={this.onReturnHome}/>
+            <NavBar tabSelect={this.props.tabSelect} activeTab="single" returnHome={this.onReturnHome} userInfo={this.props.userInfo}/>
             <div id='container'>
                 <h2 className="ui block header center aligned">Movie Tinder: Solo Viewing!</h2>
                 <div className='ui grid' id='poster'>
