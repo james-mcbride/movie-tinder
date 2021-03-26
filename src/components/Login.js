@@ -67,8 +67,9 @@ class Login extends React.Component {
             return (
                 <div className="ui segment">
                     <div className="ui active inverted dimmer">
-                        <div className="ui medium text loader">Sorry, Jimmie is still learning to code, and the database he is using will take one minute to wake up....</div>
+                        <div className="ui medium text loader">Loading</div>
                     </div>
+                    <p>Sorry, Jimmie is still learning to code, and the database he is using will take one minute to wake up....</p>
                 </div>
             )
         } else{
