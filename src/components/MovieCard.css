@@ -1,9 +1,20 @@
+html{
+    overflow: hidden;
+    height: 100%;
+}
+
+#navbar{
+    margin-bottom: 5px;
+}
+
 .movieContainer {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 94%;
+    height: calc(100% - 54px);
+    overflow-y: hidden;
+
 }
 
 .outerContainer{
@@ -40,26 +51,30 @@
 
 .watchMovie {
     background-color: white;
-    font-size: large;
+    font-size: medium;
     border: 2px solid black;
     position: absolute;
-    width: 15%;
-    left: 42.5%;
-    bottom: 1%;
+    width: 30%;
+    left: 35%;
+    bottom: 0;
     z-index: 100;
-    padding: 5px;
+    padding: 2px;
+    max-height:5%;
+    overflow: hidden
 }
 
 .deleteMovie {
     background-color: white;
-    font-size: large;
+    font-size: medium;
     border: 2px solid black;
     position: absolute;
-    width: 15%;
-    left: 42.5%;
-    top: 1%;
+    width: 30%;
+    max-height: 5%;
+    left: 35%;
+    top: 0;
     z-index: 100;
-    padding: 5px;
+    padding: 2px;
+    overflow: hidden;
 }
 
 .movieCard{
@@ -67,8 +82,9 @@
 }
 #movieCardContainer .movieCardRating{
     position: absolute;
-    bottom: 10px;
+    bottom: 1px;
     left: 10px;
+    margin-bottom:1%;
 }
 
 .movieCardRating{
@@ -80,11 +96,12 @@
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
     background-color: transparent;
-    width: 300px;
+    width: 90%;
     border: 1px solid #f1f1f1;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
-    height: 80%;
-    position: relative
+    height: 90%;
+    position: relative;
+    max-width: 500px;
 }
 
 /* This container is needed to position the front and back side */
@@ -98,7 +115,9 @@
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
+/*.flip-card:hover .flip-card-inner {*/
+.flipCardOver{
+
     transform: rotateY(180deg);
 }
 
@@ -113,13 +132,13 @@
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-    background-color: #bbb;
+    background-color: white;
     color: black;
 }
 
 /* Style the back side */
 .flip-card-back {
-    background-color: dodgerblue;
+    background-color: blue;
     color: white;
     transform: rotateY(180deg);
 }
@@ -139,12 +158,13 @@
     height: 80%
 }
 .image img{
-    object-fit: scale-down;
-    width: 100%
+    object-fit: contain;
+    height: 100%;
+    max-width:100%;
 }
 .content{
     height: 20%;
-    padding: 20px 0 0 0 ;
+    padding: 5px 0 0 0 ;
 }
 #renderedList .content{
     padding: 30px 14px 0 14px;
@@ -154,6 +174,7 @@
     position: absolute;
     top: 1%;
     right: 1%;
+    z-index: 100000;
 }
 
 #renderedList{
@@ -214,4 +235,17 @@
 }
 
 
+#groupMovieContainer{
+    height:100%;
+}
 
+#groupMovieContainer #movieCardContainer{
+    height:99%;
+    width:90%;
+    max-width: 500px;
+
+}
+
+.hideButton{
+    display: none;
+}

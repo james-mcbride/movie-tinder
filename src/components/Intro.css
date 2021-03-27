@@ -2,21 +2,26 @@
     object-fit: scale-down;
     height: 100%;
 }
-.introPoster{
-    height: 85%;
+.introMovie>div{
+    height: 100%
 }
-/*.introTitle{*/
-/*    height: 15%;*/
-/*}*/
+.introPoster{
+    height: 65%;
+}
+.introTitle{
+    height: 20%;
+    margin-bottom: 1%;
+}
+
 
 .introMovieRating{
-    height: 15%;
+    height: 10%;
 }
 .introMovie{
     height: 100%
 }
 #poster{
-    height: 60%;
+    height: 58%;
 }
 /*.grid{*/
 /*    max-height: 50%;*/
@@ -84,12 +89,25 @@
     padding: 5px 10px;
 }
 
-.allMovies{
+.allMovies {
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     flex-direction: column;
     height: 100%;
-
 }
+
+    #container>h2{
+        height:10%;
+    }
+
+#container>h3{
+    height:8%;
+}
+
+#savedWatched{
+    height: 24%;
+}
+
+

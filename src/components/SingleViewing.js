@@ -17,11 +17,14 @@ class SingleViewing extends React.Component{
     renderContent() {
         if (this.props.userInfo[this.props.username].lastWatchedMovie) {
             return (
+                <div className="">
                 <div className="introPoster" id="lastWatchedMovie">
                     <img src={this.props.userInfo[this.props.username].lastWatchedMovie.Poster}/>
+
+                </div>
                     <div className='introTitle'>
                         Your last watched movie: <br/>
-                        {this.props.userInfo[this.props.username].lastWatchedMovie.Title}
+                        <em>{this.props.userInfo[this.props.username].lastWatchedMovie.Title}</em>
                     </div>
                     <div className='introMovieRating'>
                         <MovieCardRating currentMovie={this.props.userInfo[this.props.username].lastWatchedMovie}
@@ -33,11 +36,13 @@ class SingleViewing extends React.Component{
             )
         } else if (this.props.userInfo[this.props.username].savedMovies.length > 0) {
             return (
+                <div>
                 <div className='introPoster' id="lastSavedMovie">
                     <img src={this.props.userInfo[this.props.username].savedMovies[0].Poster}/>
+                </div>
                     <div className='introTitle'>
                         Your last saved Movie: <br/>
-                        {this.props.userInfo[this.props.username].savedMovies[0].Title}
+                       <em> {this.props.userInfo[this.props.username].savedMovies[0].Title}</em>
                     </div>
                     <div className='introMovieRating'>
                         <MovieCardRating currentMovie={this.props.userInfo[this.props.username].savedMovies[0]}
@@ -56,7 +61,7 @@ class SingleViewing extends React.Component{
         return <div id="outerContainer">
             <NavBar tabSelect={this.props.tabSelect} activeTab="single" returnHome={this.onReturnHome} userInfo={this.props.userInfo}/>
             <div id='container'>
-                <h2 className="ui block header center aligned">Movie Tinder: Solo Viewing!</h2>
+                <h2 className="ui block header center middle aligned">Movie Tinder: Solo Viewing!</h2>
                 <div className='ui grid' id='poster'>
                     <div className='seven wide column '>
                         <div className='allMovies' onClick={() => this.props.onViewingOptionSelect('single')}>
@@ -77,8 +82,8 @@ class SingleViewing extends React.Component{
                     </div>
                 </div>
 
-                <h3 className="ui block header center aligned">Review your saved / Watched Movies</h3>
-                <div className=' ui grid'>
+                <h3 className="ui block header center middle aligned">Review your saved / Watched Movies</h3>
+                <div className=' ui grid' id="savedWatched">
                     <div className='ui row'>
                         <div className="eight wide column">
                             <h3>Review Saved Movies!</h3>

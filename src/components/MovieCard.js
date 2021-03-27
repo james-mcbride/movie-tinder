@@ -9,7 +9,8 @@ import MovieCardRating from "./MovieCardRating";
 class MovieCard extends React.Component {
     state={
         selectedVideo: null,
-        loadYoutube: false
+        loadYoutube: false,
+        flipCard: ""
     }
     onTermSubmit = async (term) =>{
         console.log(term);
@@ -27,14 +28,24 @@ class MovieCard extends React.Component {
 
     componentDidMount() {
         this.setState({loadYoutube: false})
-        console.log(this.props.userInfo)
-        console.log(this.props.username)
+        // console.log(this.props.userInfo)
+        // console.log(this.props.username)
     }
+
+
 
     loadYoutube = () => {
         this.setState({loadYoutube: this.props.movie.Title})
         this.onTermSubmit(this.props.movie.Title + ' trailer');
 
+    }
+    onFlipCard = () =>{
+        console.log("flipping")
+        if (this.state.flipCard===""){
+            this.setState({flipCard: "flipCardOver"})
+        } else{
+            this.setState({flipCard: ""})
+        }
     }
 
     renderContent(){
@@ -48,14 +59,18 @@ class MovieCard extends React.Component {
     render() {
         return (
             <div className='flip-card' id="movieCardContainer">
-                <div className='flip-card-inner'>
+                <div className={"flip-card-inner " +this.state.flipCard} onClick={this.onFlipCard}>
                     <div className="movieCard flip-card-front">
                         <div className="image">
                             <img src={this.props.movie.Poster}/>
                         </div>
                         <div className="content">
-                            <h2>{this.props.movie.Title}</h2>
+
+                            <h4 className="ui block header">
+                                {this.props.movie.Title}
+                            </h4>
                             {this.props.movie.service}
+
                         </div>
                     </div>
                     <div className="movieCard flip-card-back">

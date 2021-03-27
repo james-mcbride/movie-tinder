@@ -11,7 +11,10 @@ class MovieGenerator extends React.Component {
         savedMovies: [],
         watchedMovies: [],
         outOfMoviesBoolean: false,
-        watchNow: false
+        watchNow: false,
+        swiping:"waiting for swipe",
+        touchStart: 0,
+        touchEnd: 0,
     }
 
     // componentDidMount(){
@@ -111,7 +114,55 @@ class MovieGenerator extends React.Component {
         })
     }
 
+    // handleTouchStart = () =>{
+    //     this.setState({swiping:"true"})
+    // }
+    //
+    // handleTouchMove = () =>{
+    //     console.log({swiping:"currently swiping"})
+    // }
+    //
+    // handleTouchEnd = () =>{
+    //     this.setState({swiping:"finished swiping"})
+    // }
+
+
+
+     handleTouchStart =(e) => {
+        e.preventDefault();
+        this.setState({
+            touchStart: e.targetTouches[0].clientX,
+            touchEnd: e.targetTouches[0].clientX
+        })
+    }
+
+    handleTouchMove =(e) => {
+        e.preventDefault();
+        this.setState( {touchEnd :e.targetTouches[0].clientX})
+    }
+
+ handleTouchEnd =() =>{
+        if (this.state.touchStart - this.state.touchEnd > 150) {
+            // do your stuff here for left swipe
+            this.onNextMovie();
+
+            this.setState({swiping:"swiped left"})
+
+        }
+
+        if (this.state.touchStart - this.state.touchEnd < -150) {
+            // do your stuff here for right swipe
+            this.onWatchLater();
+            this.setState({swiping:"swiped right"})
+        }
+    }
+
     renderContent(){
+        let hideButtons="";
+        if (window.innerWidth<600){
+            hideButtons= "hideButton"
+        }
+
         if (this.state.outOfMoviesBoolean||this.props.allMovies.length===0){
             return <div>You have run out of movies!</div>
         }
@@ -120,20 +171,20 @@ class MovieGenerator extends React.Component {
                 <div>Enjoy watching {this.props.allMovies[this.state.movieNumber].title}! </div>
             </div>
         }
-        return (<div className="movieContainer" >
+        return (<div className="movieContainer"  onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}  onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}  onTouchEnd={() => this.handleTouchEnd()}>
             {/*<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>*/}
             <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
-            <div className='nextMovieButton' onClick={this.onNextMovie}>
+            <div className={'nextMovieButton '+ hideButtons} onClick={this.onNextMovie}>
                 Skip <br/> Movie
             </div>
-            <div className='watchLaterButton' onClick={this.onWatchLater}>
+            <div className={'watchLaterButton '+hideButtons} onClick={this.onWatchLater}>
                 Watch <br/>Later
             </div>
             <div className='watchMovie' onClick={this.onWatchNow}>
-                Watch <br/>Now!
+                Watch Now!
             </div>
             <div className='deleteMovie' onClick={this.onDeleteMovie} >
-                Delete <br />Movie
+                Delete Movie
             </div>
         </div>
         )
@@ -141,7 +192,10 @@ class MovieGenerator extends React.Component {
     }
 
 
+
+
     render() {
+        console.log(window.innerWidth);
         return (
             <div className="outerContainer">
             <NavBar tabSelect={this.props.tabSelect} activeTab="movieGenerator" returnHome={this.props.returnHome}  userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>

@@ -36,7 +36,7 @@ const NavBar = (props) => {
 
     if (displayGroupMovies){
         return (
-            <div className="ui blue three item inverted menu">
+            <div className="ui blue three item inverted menu" id="navbar">
                 <a className={`item ${home}`} onClick={() => props.returnHome(props.groupInfo, [], [], props.saveInfoBoolean, "")}>
                     Home
                 </a>
@@ -51,7 +51,7 @@ const NavBar = (props) => {
     }
     if (!saveChanges) {
         return (
-            <div className="ui blue three item inverted menu">
+            <div className="ui blue three item inverted menu" id="navbar">
                 <a className={`item ${home}`} onClick={() => {
                     props.tabSelect('')
                 }}>
@@ -67,7 +67,7 @@ const NavBar = (props) => {
         )
     } else{
         return (
-            <div className="ui blue three item inverted menu">
+            <div className="ui blue three item inverted menu" id="navbar">
                 <a className={`item ${home}`} onClick={() => props.returnHome(props.userInfo[props.username].savedMovies, props.userInfo[props.username].deletedMovies, props.userInfo[props.username].lastWatchedMovie, props.saveInfoBoolean, "")}>
                     Home
                 </a>

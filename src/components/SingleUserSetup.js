@@ -84,7 +84,7 @@ class SingleUserSetup extends React.Component {
                 return <button className="ui secondary button"
                                onClick={() => this.genreChosen(genre)}>{genre}</button>
             } else {
-                return <button className="ui button" onClick={() => this.genreChosen(genre)}>{genre}</button>
+                return <button className="ui tiny button" onClick={() => this.genreChosen(genre)}>{genre}</button>
             }
         }))
         return <div id="genresList">{renderedList}</div>
@@ -136,9 +136,8 @@ class SingleUserSetup extends React.Component {
                     </div>
                 </div>
                 <br />
-                <br />
                 <button className="ui primary button" onClick={()=>{this.props.moviePreferences(this.state)}}>Start Selecting Movies!</button>
-
+                <br />
 
             </div>
 

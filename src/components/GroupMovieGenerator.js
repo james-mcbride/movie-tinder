@@ -129,8 +129,34 @@ class GroupMovieGenerator extends React.Component {
 
     }
 
+    handleTouchStart =(e) => {
+        this.setState({touchStart: e.targetTouches[0].clientX})
+    }
 
+    handleTouchMove =(e) => {
+        this.setState( {touchEnd :e.targetTouches[0].clientX})
+    }
+
+    handleTouchEnd =() =>{
+
+        if (this.state.touchStart - this.state.touchEnd > 150) {
+            // do your stuff here for left swipe
+            this.onNextMovie();
+
+
+        }
+
+        if (this.state.touchStart - this.state.touchEnd < -150) {
+            // do your stuff here for right swipe
+            this.onWatchLater();
+        }
+    }
     render(){
+        let hideButtons="";
+        if (window.innerWidth<600){
+            hideButtons= "hideButton"
+        }
+
         if (this.state.outOfMoviesBoolean||this.props.allMovies.length===0){
             return <div>You have run out of movies!<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username}/></div>
         }
@@ -160,13 +186,13 @@ class GroupMovieGenerator extends React.Component {
             <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.onReturnHome}/>
             return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} groupMembers={this.state.groupMembers}/>
         }
-        return <div className='movieContainer'>
-            <div className='submitButton'><button onClick={this.onSubmit}>Submit</button></div>
+        return <div className='movieContainer' id="groupMovieContainer" onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}  onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}  onTouchEnd={() => this.handleTouchEnd()}>
+            <div className='submitButton '><button className="ui blue button small" onClick={this.onSubmit}>Submit</button></div>
             <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
-            <div className='nextMovieButton' onClick={this.onNextMovie}>
+            <div className={'nextMovieButton '+hideButtons} onClick={this.onNextMovie}>
                 Skip
             </div>
-            <div className='watchLaterButton' onClick={this.onWatchLater}>
+            <div className={'watchLaterButton '+hideButtons} onClick={this.onWatchLater}>
                 Watch <br/>Now!
             </div>
         </div>
