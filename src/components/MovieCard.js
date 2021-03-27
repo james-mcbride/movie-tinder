@@ -41,7 +41,8 @@ class MovieCard extends React.Component {
     }
     onFlipCard = () =>{
         console.log("flipping")
-        if (this.state.flipCard===""){
+        console.log(this.props.flipCard)
+        if (this.state.flipCard==="" && this.props.flipCard==="true"){
             this.setState({flipCard: "flipCardOver"})
         } else{
             this.setState({flipCard: ""})

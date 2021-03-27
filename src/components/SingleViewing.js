@@ -88,7 +88,7 @@ class SingleViewing extends React.Component{
                         <div className="eight wide column">
                             <h3>Review Saved Movies!</h3>
                             <div>
-                                <button className="ui blue button large" onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved
+                                <button className="ui blue button medium" onClick={() => this.props.onViewingOptionSelect('savedMovies')}>Saved
                                     Movies
                                 </button>
                             </div>
@@ -96,7 +96,7 @@ class SingleViewing extends React.Component{
                         <div className="eight wide column">
                             <h3>Rate Watched Movies!</h3>
                             <div>
-                                <button className="ui blue button large" onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched
+                                <button className="ui blue button medium" onClick={() => this.props.onViewingOptionSelect('watchedMovies')}>Watched
                                     Movies
                                 </button>
                             </div>

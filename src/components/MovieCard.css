@@ -48,6 +48,41 @@ html{
     z-index: 100;
     padding: 5px;
 }
+#saveMovieDirections{
+    top: 15%;
+}
+#begin{
+    top: 45%;
+    width: 80%;
+    font-size: x-large;
+    max-height: 15%;
+    height: 14%;
+    background: forestgreen;
+}
+#skipMovieDirections{
+    top: 30%;
+    width: 80%
+}
+#tapDirections{
+    top: 65%;
+    width: 80%;
+}
+
+.movieContainer>div{
+    text-align: center;
+}
+#watchMovieDirections{
+    width: 80%;
+    left: 10%;
+    max-height: 10%;
+    bottom: 0;
+}
+#deleteMovieDirections{
+    top: 2%;
+    width: 80%;
+    left: 10%;
+    max-height: 10%;
+}
 
 .watchMovie {
     background-color: white;

@@ -15,6 +15,7 @@ class MovieGenerator extends React.Component {
         swiping:"waiting for swipe",
         touchStart: 0,
         touchEnd: 0,
+        getStarted: true
     }
 
     // componentDidMount(){
@@ -129,7 +130,12 @@ class MovieGenerator extends React.Component {
 
 
      handleTouchStart =(e) => {
-        e.preventDefault();
+         e.preventDefault();
+
+         if (this.state.getStarted){
+            this.setState({getStarted: setTimeout(function(){return false}, 100)})
+        }
+
         this.setState({
             touchStart: e.targetTouches[0].clientX,
             touchEnd: e.targetTouches[0].clientX
@@ -142,7 +148,7 @@ class MovieGenerator extends React.Component {
     }
 
  handleTouchEnd =() =>{
-        if (this.state.touchStart - this.state.touchEnd > 150) {
+        if (this.state.touchStart - this.state.touchEnd > 40) {
             // do your stuff here for left swipe
             this.onNextMovie();
 
@@ -150,11 +156,15 @@ class MovieGenerator extends React.Component {
 
         }
 
-        if (this.state.touchStart - this.state.touchEnd < -150) {
+        if (this.state.touchStart - this.state.touchEnd < -40) {
             // do your stuff here for right swipe
             this.onWatchLater();
             this.setState({swiping:"swiped right"})
         }
+    }
+
+    onGetStarted = () =>{
+        this.setState({getStarted: false})
     }
 
     renderContent(){
@@ -171,9 +181,46 @@ class MovieGenerator extends React.Component {
                 <div>Enjoy watching {this.props.allMovies[this.state.movieNumber].title}! </div>
             </div>
         }
+        if (this.state.getStarted){
+            return (<div className="movieContainer"  onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}  onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}  onTouchEnd={() => this.handleTouchEnd()}>
+                {/*<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>*/}
+                <MovieCard flipCard="false" movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
+                <div className={'nextMovieButton '} id="saveMovieDirections" onClick={this.onNextMovie}>
+                    Swipe Right to add to Saved Movies <br/>
+                    <i className="large angle double right icon" />
+
+
+
+                </div>
+                <div className={'watchLaterButton'} id="skipMovieDirections" onClick={this.onGetStarted}>
+                    Swipe left to skip movie. <br />
+                    <i className="large angle double left icon" />
+
+
+                </div>
+                    <div className={'watchLaterButton'} id="begin" onClick={this.onGetStarted}>
+                        <strong>Tap anywhere to begin!!</strong><br />
+                        <i className="large icon dot circle" />
+
+                    </div>
+                    <div className={'watchLaterButton'} id="tapDirections" onClick={this.onGetStarted}>
+                        Tap on movie to view additional information
+                        <i className="large icon dot circle" />
+
+
+                    </div>
+                <div className='watchMovie' id="watchMovieDirections" onClick={this.onGetStarted}>
+                    Click watch now to add movie to watched list and finish swiping.
+                </div>
+                <div className='deleteMovie' id="deleteMovieDirections" onClick={this.onGetStarted} >
+                    Click delete movie to never see again on single viewing.
+                </div>
+            </div>
+            )
+        }
         return (<div className="movieContainer"  onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}  onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}  onTouchEnd={() => this.handleTouchEnd()}>
             {/*<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>*/}
-            <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
+            <MovieCard flipCard="true" movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
             <div className={'nextMovieButton '+ hideButtons} onClick={this.onNextMovie}>
                 Skip <br/> Movie
             </div>

@@ -13,13 +13,13 @@ class SingleUserSetup extends React.Component {
             this.setState({
                 services: [...this.props.services],
                 genre: ["All"],
-                sorting: "Movie Tinder's Choice"
+                sorting: "Box Office Hits"
             })
         } else{
             this.setState({
                 services: ["netflix"],
                 genre: ["All"],
-                sorting: "Movie Tinder's Choice"
+                sorting: "Box Office Hits"
             })
         }
     }
@@ -64,7 +64,7 @@ class SingleUserSetup extends React.Component {
     }
 
     renderServices() {
-        let services = ["netflix", "hulu", "amazonPrime", "disneyPlus"];
+        let services = ["netflix", "hulu", "disneyPlus"];
         const renderedList = services.map((service => {
             if (this.state.services.indexOf(service) !== -1) {
                 return <button className="ui secondary button"
@@ -77,7 +77,7 @@ class SingleUserSetup extends React.Component {
     }
 
     renderGenres() {
-        let genres=["All","Adventure", "Action", "Comedy", "Family", "Animation", "Drama", "Romance", "Sci-fi", "Horror", "Sport", "Musical", "Documentary", "Fantasy", "Mystery", "History", "Western", "Thriller"  ]
+        let genres=["All","Adventure", "Action", "Comedy", "Family", "Animation", "Drama", "Romance", "Horror", "Sport", "Musical", "Documentary", "Fantasy", "Mystery", "History", "Western", "Thriller"  ]
 
         const renderedList = genres.map((genre => {
             if (this.state.genre.indexOf(genre) !== -1) {
@@ -91,7 +91,7 @@ class SingleUserSetup extends React.Component {
     }
 
     renderSortingMethods(){
-        let sortingMethods=  ["Movie Tinder's Choice", "IMDB Rating", "Box Office Hits"]
+        let sortingMethods=  ["Box Office Hits", "Movie Tinder's Choice", "IMDB Rating", ]
 
         const renderedList = sortingMethods.map((method => {
             if (this.state.sorting === method) {

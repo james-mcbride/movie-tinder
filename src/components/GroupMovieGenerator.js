@@ -15,7 +15,9 @@ class GroupMovieGenerator extends React.Component {
         watchNow: false,
         showVotedMovies: false,
         groupMovies: [],
-        groupMembers: []
+        groupMembers: [],
+        getStarted: true
+
     }
 
     // componentDidMount(){
@@ -151,6 +153,10 @@ class GroupMovieGenerator extends React.Component {
             this.onWatchLater();
         }
     }
+
+    onGetStarted = () =>{
+        this.setState({getStarted: false})
+    }
     render(){
         let hideButtons="";
         if (window.innerWidth<600){
@@ -185,6 +191,38 @@ class GroupMovieGenerator extends React.Component {
             // )
             <NavBar tabSelect={this.props.tabSelect} activeTab="group" returnHome={this.onReturnHome}/>
             return <DisplayGroupMovies returnHome={this.props.returnHome} groupMovies={this.state.groupMovies} groupId={this.props.groupId} groupName={this.props.groupName} groupMembers={this.state.groupMembers}/>
+        }
+        if (this.state.getStarted){
+            return (<div className="movieContainer"  onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}  onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}  onTouchEnd={() => this.handleTouchEnd()}>
+                    {/*<HomeButton returnHome={this.props.returnHome} userInfo={this.state.updatedUserInfo} username={this.props.username} saveInfoBoolean={true}/>*/}
+                    <MovieCard movie={this.props.allMovies[this.state.movieNumber]} username={this.props.username}  userInfo={this.state.updatedUserInfo}  onRatedMovie={this.props.onRatedMovie} watchedMovies={this.props.watchedMovies}/>
+                    <div className={'nextMovieButton '} id="saveMovieDirections" onClick={this.onNextMovie}>
+                        Swipe Right to vote yes for movie <br/>
+                        <i className="large angle double right icon" />
+
+
+
+                    </div>
+                    <div className={'watchLaterButton'} id="skipMovieDirections" onClick={this.onGetStarted}>
+                        Swipe left to vote no for movie. <br />
+                        <i className="large angle double left icon" />
+
+
+                    </div>
+                    <div className={'watchLaterButton'} id="begin" onClick={this.onGetStarted}>
+                        <strong>Tap anywhere to begin!!</strong><br />
+                        <i className="large icon dot circle" />
+
+                    </div>
+                    <div className={'watchLaterButton'} id="tapDirections" onClick={this.onGetStarted}>
+                        Tap on movie to view additional information
+                        <i className="large icon dot circle" />
+
+
+                    </div>
+
+                </div>
+            )
         }
         return <div className='movieContainer' id="groupMovieContainer" onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}  onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}  onTouchEnd={() => this.handleTouchEnd()}>
             <div className='submitButton '><button className="ui blue button small" onClick={this.onSubmit}>Submit</button></div>
