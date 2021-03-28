@@ -70,7 +70,8 @@ class App extends React.Component {
                 }
             }
         }
-
+        console.log("all movies after services are grabbed");
+        console.log(allMovies)
 
         let sortedGenreMovies=[]
         console.log('allMovies length: '+allMovies.length)
@@ -174,7 +175,7 @@ class App extends React.Component {
                 return bascore-aascore;
             })
         }
-
+        console.log(sortedGenreMovies)
         return sortedGenreMovies
 
     }
@@ -259,17 +260,21 @@ class App extends React.Component {
     onPreferencesSubmit = (preferences) => {
         console.log(preferences)
         let allMovies=this.sortMoviesWithPreferences(preferences.services, preferences.genre, preferences.sorting)
-
+        console.log("all movies: ")
+        console.log(allMovies)
         let deletedMovies=this.state.userInfo[this.state.username].deletedMovies;
+        console.log(deletedMovies)
         let filteredMovies=allMovies.filter(movie => {
             let counter=0;
             for (let i=0; i<deletedMovies.length; i++){
-                if (deletedMovies[i].title===movie.title){
+                if (deletedMovies[i].Title===movie.Title){
                     counter++
                 }
             }
             return counter===0;
         })
+        console.log("filtered movies are: ")
+        console.log(filteredMovies);
 
         function shuffleArray(array) {
             for (var i = array.length - 1; i > 0; i--) {
